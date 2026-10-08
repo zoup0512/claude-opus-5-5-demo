@@ -1090,23 +1090,47 @@ renderer.domElement.addEventListener('pointerup', (e) => {
   }
 });
 
-// 触屏按钮
-document.querySelectorAll('[data-key]').forEach((b) => {
-  const k = b.dataset.key;
-  const on = (e) => {
-    e.preventDefault();
-    keys[k] = true;
-    b.classList.add('on');
-  };
-  const off = () => {
-    keys[k] = false;
-    b.classList.remove('on');
-  };
-  b.addEventListener('pointerdown', on);
-  b.addEventListener('pointerup', off);
-  b.addEventListener('pointerleave', off);
-  b.addEventListener('pointercancel', off);
+const joystick = $('.joystick');
+let stickPointer = null;
+function releaseJoystick() {
+  stickPointer = null;
+  for (const key of ['up', 'down', 'left', 'right']) keys[key] = false;
+  joystick.classList.remove('active');
+  joystick.style.setProperty('--stick-x', '0px');
+  joystick.style.setProperty('--stick-y', '0px');
+}
+function moveJoystick(e) {
+  const rect = joystick.getBoundingClientRect();
+  const radius = rect.width / 2;
+  const x = (e.clientX - rect.left - radius) / radius;
+  const y = (e.clientY - rect.top - radius) / radius;
+  const distance = Math.hypot(x, y);
+  const scale = Math.min(distance, 0.48) / (distance || 1) * radius;
+  joystick.style.setProperty('--stick-x', `${x * scale}px`);
+  joystick.style.setProperty('--stick-y', `${y * scale}px`);
+  keys.left = x < -0.24;
+  keys.right = x > 0.24;
+  keys.up = y < -0.24;
+  keys.down = y > 0.24;
+}
+joystick.addEventListener('pointerdown', (e) => {
+  if (stickPointer !== null) return;
+  e.preventDefault();
+  stickPointer = e.pointerId;
+  joystick.setPointerCapture(e.pointerId);
+  joystick.classList.add('active');
+  moveJoystick(e);
 });
+joystick.addEventListener('pointermove', (e) => {
+  if (e.pointerId === stickPointer) moveJoystick(e);
+});
+for (const event of ['pointerup', 'pointercancel', 'lostpointercapture']) {
+  joystick.addEventListener(event, (e) => {
+    if (e.pointerId === stickPointer) releaseJoystick();
+  });
+}
+addEventListener('blur', releaseJoystick);
+addEventListener('orientationchange', releaseJoystick);
 const ACTIONS = {
   jump,
   trick,
@@ -1157,11 +1181,20 @@ function toggleMusic() {
   }
   audio.setMusic(settings.music);
   audio.setMusicVolume(settings.musicVolume);
-  $('[data-act="music"]').classList.toggle('off', !settings.music);
+  document.querySelectorAll('[data-act="music"]').forEach((button) => button.classList.toggle('off', !settings.music));
 }
 document.addEventListener('visibilitychange', () => audio.mute(document.hidden || S.paused));
+async function requestLandscape() {
+  try {
+    if (!document.fullscreenElement) await document.documentElement.requestFullscreen?.();
+    await screen.orientation?.lock?.('landscape');
+  } catch {
+    // 浏览器不支持方向锁定时，竖屏提示仍会引导用户旋转设备。
+  }
+}
+$('#rotateBtn').addEventListener('click', requestLandscape);
 function toggleFullscreen() {
-  if (!document.fullscreenElement) document.documentElement.requestFullscreen?.();
+  if (!document.fullscreenElement) requestLandscape();
   else document.exitFullscreen?.();
 }
 function shareView() {
@@ -1234,7 +1267,7 @@ function toggleGui() {
     gui.show();
     gui.open();
   } else gui.hide();
-  $('[data-act="gui"]').classList.toggle('on', !gui._hidden);
+  document.querySelectorAll('[data-act="gui"]').forEach((button) => button.classList.toggle('on', !gui._hidden));
 }
 
 // ---------------- 开场 ----------------
@@ -1242,13 +1275,14 @@ function start(withSound) {
   if (S.started) return;
   S.started = true;
   document.body.classList.add('started');
+  if (isTouch) requestLandscape();
   if (withSound) {
     audio.start();
     audio.setVolume(settings.volume);
     audio.setMusicVolume(settings.musicVolume);
   }
   setCamMode(Q.has('cam') ? camMode : 'orbit');
-  setTimeout(() => toast('🐦', '出发！', isTouch ? '点屏幕按钮加速、变道、跳跃' : 'W/S 加减速 · A/D 变道 · 空格跳 · T 特技'), 900);
+  setTimeout(() => toast('🐦', '出发！', isTouch ? '拖动左侧摇杆骑行 · 点击右侧技能' : 'W/S 加减速 · A/D 变道 · 空格跳 · T 特技'), 900);
 }
 $('#startBtn').addEventListener('click', () => start(true));
 $('#startMute').addEventListener('click', () => {
