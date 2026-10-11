@@ -54,6 +54,13 @@ class Voice {
   musicBus: boolean = false;
   env: number = 0.001;   // 当前包络（乘法衰减）
   envMul: number = 0.999; // 每样本衰减系数
+  // 每样本热路径的预计算量（在 prepVoice 中一次性算好，循环内零 pow/除法）
+  durN: number = 0;      // 时长（样本数）
+  ageN: number = 0;      // 已发声样本数
+  attackN: number = 1;   // 起音样本数
+  attackInc: number = 0; // 起音每样本包络增量
+  fStep: number = 0;     // 当前相位步进 f/sr
+  fMul: number = 1;      // 每样本频率滑动系数 (f1/f0)^(1/durN)
   // biquad
   useBq: boolean = false;
   bqType: number = 0; // 0 lowpass 1 bandpass 2 highpass
@@ -103,6 +110,17 @@ function setBiquad(v: Voice, sampleRate: number): void {
   v.b2 = b2 / a0;
   v.a1 = a1 / a0;
   v.a2 = a2 / a0;
+}
+
+// 按 dur/attack/f0/f1 预计算每样本增量（发声前调用一次，热循环内无 pow/除法）
+function prepVoice(v: Voice, sampleRate: number): void {
+  v.durN = Math.max(1, Math.round(v.dur * sampleRate));
+  v.ageN = 0;
+  v.attackN = Math.max(1, Math.round(v.attack * sampleRate));
+  v.attackInc = 0.9999 / v.attackN;
+  v.fMul = v.f1 !== v.f0 ? Math.pow(v.f1 / v.f0, 1 / v.durN) : 1;
+  v.fStep = v.f0 / sampleRate;
+  v.env = 0.0001;
 }
 
 export class AudioSys {
@@ -221,13 +239,13 @@ export class AudioSys {
 
   private nextSample(sr: number): number {
     let mix = 0;
-    // 一次性 voice（包络用乘法衰减，振荡用查表，热路径无 pow/sin 调用）
+    // 一次性 voice（包络用乘法衰减，振荡用查表+增量滑频，热路径无 pow/sin/除法）
     for (let k = 0; k < this.voices.length; k++) {
       const v = this.voices[k];
       if (!v.active) continue;
-      const age = (this.samplePos - v.startSample) / sr;
-      if (age < 0) continue;
-      if (age > v.dur) {
+      if (this.samplePos < v.startSample) continue;
+      v.ageN++;
+      if (v.ageN > v.durN) {
         v.active = false;
         continue;
       }
@@ -235,9 +253,8 @@ export class AudioSys {
       if (v.isNoise) {
         s = Math.random() * 2 - 1;
       } else {
-        const fT = age / v.dur;
-        const f = v.f0 * Math.pow(v.f1 / v.f0, Math.min(1, fT));
-        v.ph += f / sr;
+        v.fStep *= v.fMul;
+        v.ph += v.fStep;
         if (v.ph > 1) v.ph -= Math.floor(v.ph);
         const p = v.ph;
         if (v.osc === 0) {
@@ -262,9 +279,9 @@ export class AudioSys {
         v.y1 = y;
         s = y;
       }
-      // 包络：起音线性，之后乘法衰减（等价指数，免 pow）
-      if (age < v.attack) {
-        v.env = age / v.attack * 0.9999 + 0.0001;
+      // 包络：起音线性累加，之后乘法衰减（等价指数，免 pow/除法）
+      if (v.ageN < v.attackN) {
+        v.env += v.attackInc;
       } else {
         v.env *= v.envMul;
       }
@@ -341,8 +358,8 @@ export class AudioSys {
     v.attack = pad ? 0.2 : 0.01;
     v.startSample = this.samplePos + Math.floor(delay * this.sampleRate);
     v.musicBus = musicBus;
-    v.env = 0.001;
     v.envMul = Math.exp(-9.2103 / Math.max(0.005, v.dur - v.attack) / this.sampleRate);
+    prepVoice(v, this.sampleRate);
     if (cutoff > 0) {
       v.useBq = true;
       v.bqType = 0;
@@ -365,8 +382,8 @@ export class AudioSys {
     v.attack = 0.005;
     v.startSample = this.samplePos + Math.floor(delay * this.sampleRate);
     v.musicBus = musicBus;
-    v.env = 0.001;
     v.envMul = Math.exp(-9.2103 / Math.max(0.005, v.dur - v.attack) / this.sampleRate);
+    prepVoice(v, this.sampleRate);
     v.useBq = true;
     v.bqType = type;
     // 扫频用起止几何中点近似（重算 biquad 系数代价高）
@@ -532,6 +549,7 @@ export class AudioSys {
         v.startSample = startSample;
         v.musicBus = true;
         v.useBq = false;
+        prepVoice(v, this.sampleRate);
       }
     }
     // 军鼓 / 拍手

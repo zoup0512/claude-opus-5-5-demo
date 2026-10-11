@@ -39,7 +39,7 @@ class TileSink {
 export class PropsBuilder {
   static build(map: MapCfg, track: Track, terrain: Terrain, pal: Palette, quality: string): Mesh[] {
     const rnd = mulberry32(map.id.length * 997 + 13);
-    const propDist = quality === 'high' ? 1300 : quality === 'mid' ? 900 : 550;
+    const propDist = quality === 'high' ? 1300 : quality === 'mid' ? 900 : 380;
     const out: Mesh[] = [];
     const t = new TileSink(pal);
     const tNear = new TileSink(pal); // 近景独立瓦片（路灯等，视距短）
@@ -304,12 +304,16 @@ export class PropsBuilder {
       addBox(b, x, -0.4, z, 0.18, 6.5, 0.18, yaw, hull, hull, hull);
       for (const side of [-1, 1]) {
         const ox = side * 0.35;
-        b.quad(
-          x + Math.sin(yaw) * -3.4 + Math.cos(yaw) * ox, -0.2, z + Math.cos(yaw) * -3.4 - Math.sin(yaw) * ox,
-          x + Math.sin(yaw) * -3.4 + Math.cos(yaw) * ox, 5.8, z + Math.cos(yaw) * -3.4 - Math.sin(yaw) * ox,
-          x + Math.sin(yaw) * 1.6 + Math.cos(yaw) * ox, 5.2, z + Math.cos(yaw) * 1.6 - Math.sin(yaw) * ox,
-          x + Math.sin(yaw) * 1.6 + Math.cos(yaw) * ox, -0.2, z + Math.cos(yaw) * 1.6 - Math.sin(yaw) * ox,
-          side < 0 ? sail : sailB, -1);
+        const ax = x + Math.sin(yaw) * -3.4 + Math.cos(yaw) * ox;
+        const az = z + Math.cos(yaw) * -3.4 - Math.sin(yaw) * ox;
+        const fx = x + Math.sin(yaw) * 1.6 + Math.cos(yaw) * ox;
+        const fz = z + Math.cos(yaw) * 1.6 - Math.sin(yaw) * ox;
+        const col = side < 0 ? sail : sailB;
+        if (side > 0) {
+          b.quad(ax, -0.2, az, ax, 5.8, az, fx, 5.2, fz, fx, -0.2, fz, col, -1);
+        } else {
+          b.quad(ax, -0.2, az, fx, -0.2, fz, fx, 5.2, fz, ax, 5.8, az, col, -1);
+        }
       }
     }
   }

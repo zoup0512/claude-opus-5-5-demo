@@ -217,6 +217,8 @@ export class GameApp implements ItemHost {
       if (q.id === this.settings.quality) {
         this.renderer.viewScale = q.view;
         this.renderer.lowGfx = q.id !== 'high';
+        // 低画质用更粗的深度桶：提高同色合批率、减少 fill 调用（Canvas 逐调用开销在低端机很高）
+        this.renderer.bandsN = q.id === 'low' ? 72 : 256;
       }
     }
   }
@@ -417,8 +419,8 @@ export class GameApp implements ItemHost {
       const x0 = Math.sin(a0) * 0.22;
       const y1 = Math.cos(a1) * 0.22;
       const x1 = Math.sin(a1) * 0.22;
-      b2.quad(x0, y0, -0.8, x1, y1, -0.8, x1, y1, 0.8, x0, y0, 0.8, white, -1);
-      b2.quad(x0, y0, 0.8, x1, y1, 0.8, 0, 0, 1.3, 0, 0, 1.3, red, -1);
+      b2.quad(x1, y1, -0.8, x0, y0, -0.8, x0, y0, 0.8, x1, y1, 0.8, white, -1);
+      b2.quad(x1, y1, 0.8, x0, y0, 0.8, 0, 0, 1.3, 0, 0, 1.3, red, -1);
     }
     this.missileMesh = b2.build(600);
     const b3 = new MeshBuilder(pal, true);
@@ -1307,6 +1309,7 @@ export class GameApp implements ItemHost {
       for (const mesh of tm.far) r.drawMesh(mesh, null, 0);
       for (const mesh of tm.extras) r.drawMesh(mesh, null, 0);
     }
+    const tTrack = Date.now();
     for (const mesh of this.props) r.drawMesh(mesh, null, 0);
     const tMesh = Date.now();
     this.renderItems();
@@ -1343,7 +1346,8 @@ export class GameApp implements ItemHost {
     // 性能统计：每 120 帧向 hilog 输出一次
     this.msSkyAcc += (tSky - tGeo0);
     this.msTerAcc += (tTer - tSky);
-    this.msMeshAcc += (tMesh - tTer);
+    this.msTrackAcc += (tTrack - tTer);
+    this.msMeshAcc += (tMesh - tTrack);
     this.msCarAcc += (tFlush0 - tMesh);
     this.msFlushAcc += r.getFlushMs();
     this.msPartsAcc += (tParts1 - tParts0);
@@ -1351,11 +1355,14 @@ export class GameApp implements ItemHost {
       const st = r.stat;
       console.info(`[PERF] fps=${this.fpsSmooth.toFixed(0)} step=${(this.msStepAcc / 120).toFixed(1)} ` +
         `sky=${(this.msSkyAcc / 120).toFixed(1)} ter=${(this.msTerAcc / 120).toFixed(1)} ` +
-        `mesh=${(this.msMeshAcc / 120).toFixed(1)} car=${(this.msCarAcc / 120).toFixed(1)} ` +
+        `track=${(this.msTrackAcc / 120).toFixed(1)} prop=${(this.msMeshAcc / 120).toFixed(1)} ` +
+        `car=${(this.msCarAcc / 120).toFixed(1)} ` +
         `flush=${(this.msFlushAcc / 120).toFixed(1)} parts=${(this.msPartsAcc / 120).toFixed(1)}ms ` +
         `faces=${st.facesPushed} fills=${st.fills} W=${r.W}x${r.H}`);
       this.msStepAcc = 0;
+      this.msSkyAcc = 0;
       this.msTerAcc = 0;
+      this.msTrackAcc = 0;
       this.msMeshAcc = 0;
       this.msCarAcc = 0;
       this.msFlushAcc = 0;
@@ -1366,6 +1373,7 @@ export class GameApp implements ItemHost {
   private msStepAcc: number = 0;
   private msSkyAcc: number = 0;
   private msTerAcc: number = 0;
+  private msTrackAcc: number = 0;
   private msMeshAcc: number = 0;
   private msCarAcc: number = 0;
 
@@ -1524,8 +1532,8 @@ export class GameApp implements ItemHost {
       g.fillText(this.cdText, W / 2, H / 2);
       g.shadowBlur = 0;
     }
-    // 性能叠层（左上角小字）
-    {
+    // 性能叠层（左上角小字，10 帧一次；fillText 在低端机不便宜）
+    if (this.frameNo % 10 === 0) {
       const st = r.stat;
       g.font = '600 11px monospace';
       g.textAlign = 'left';

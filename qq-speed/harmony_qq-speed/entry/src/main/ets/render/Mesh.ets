@@ -205,8 +205,8 @@ export function addBox(b: MeshBuilder, cx: number, cy: number, cz: number,
   q(5, 1, 3, 7, colSide);
   // -x 面
   q(0, 4, 6, 2, colSide);
-  // +y 顶面
-  q(2, 3, 7, 6, colTop);
+  // +y 顶面（绕序保证法线朝 +Y）
+  q(2, 6, 7, 3, colTop);
   // -y 底面
   q(0, 1, 5, 4, colBottom);
 }

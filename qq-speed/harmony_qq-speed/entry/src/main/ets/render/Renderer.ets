@@ -4,6 +4,7 @@
 import { Palette, FOG_LEVELS } from './Palette';
 import { Mesh, Mat34 } from './Mesh';
 import { ParticlePool, SkidMarks } from '../game/Effects';
+import { wrapAngle } from '../common/Util';
 
 const ZN: number = 0.6; // 近裁剪面
 
@@ -131,10 +132,10 @@ export class Renderer {
     this.rx = cy;
     this.ry = 0;
     this.rz = -sy;
-    // up = right × forward
-    this.ux = this.ry * this.fz - this.rz * this.fy;
-    this.uy = this.rz * this.fx - this.rx * this.fz;
-    this.uz = this.rx * this.fy - this.ry * this.fx;
+    // up = forward × right（世界 +Y 朝上；若写成 right × forward 会得到 -Y，画面垂直翻转）
+    this.ux = this.fy * this.rz - this.fz * this.ry;
+    this.uy = this.fz * this.rx - this.fx * this.rz;
+    this.uz = this.fx * this.ry - this.fy * this.rx;
     this.focal = (this.H / 2) / Math.tan((fov * Math.PI / 180) / 2);
     this.cx = this.W / 2;
     this.cy = this.H / 2;
@@ -254,10 +255,10 @@ export class Renderer {
 
   drawMountains(): void {
     const g = this.ctx;
-    // 只按朝向分桶重建（4°）；俯仰/高度变化用 translate 平移补偿
-    const qYaw = Math.round(this.yaw / 0.11);
-    if (qYaw !== this.mtnYaw || this.fov !== this.mtnFov) {
-      this.mtnYaw = qYaw;
+    // 迟滞重建：以重建时刻的精确 yaw 为锚，实际转过超过一桶宽度（0.11 rad）才重建。
+    // 比赛中相机 yaw 持续微调，若按量化桶判断会在桶边界来回触发 Path2D 全量重建（原生调用很贵）
+    if (Math.abs(wrapAngle(this.yaw - this.mtnYaw)) > 0.11 || this.fov !== this.mtnFov) {
+      this.mtnYaw = this.yaw;
       this.mtnPitch = this.pitch;
       this.mtnCamY = this.camY;
       this.mtnFov = this.fov;
@@ -461,13 +462,20 @@ export class Renderer {
     const y2v = d2x * this.ux + d2y * this.uy + d2z * this.uz;
     const x3v = d3x * this.rx + d3y * this.ry + d3z * this.rz;
     const y3v = d3x * this.ux + d3y * this.uy + d3z * this.uz;
-    this.pX.length = 0;
-    this.pY.length = 0;
-    this.pX.push(this.cx + (x0v / z0v) * this.focal, this.cx + (x1v / z1v) * this.focal,
-      this.cx + (x2v / z2v) * this.focal, this.cx + (x3v / z3v) * this.focal);
-    this.pY.push(this.cy - (y0v / z0v) * this.focal, this.cy - (y1v / z1v) * this.focal,
-      this.cy - (y2v / z2v) * this.focal, this.cy - (y3v / z3v) * this.focal);
-    this.pushFace(this.pX, this.pY, zm, this.palette.keyOf(colId, shade, fog));
+    // 索引赋值代替 push：每帧上万次方法调用在解释执行下不可忽视
+    const px = this.pX;
+    const py = this.pY;
+    px[0] = this.cx + (x0v / z0v) * this.focal;
+    px[1] = this.cx + (x1v / z1v) * this.focal;
+    px[2] = this.cx + (x2v / z2v) * this.focal;
+    px[3] = this.cx + (x3v / z3v) * this.focal;
+    px.length = 4;
+    py[0] = this.cy - (y0v / z0v) * this.focal;
+    py[1] = this.cy - (y1v / z1v) * this.focal;
+    py[2] = this.cy - (y2v / z2v) * this.focal;
+    py[3] = this.cy - (y3v / z3v) * this.focal;
+    py.length = 4;
+    this.pushFace(px, py, zm, this.palette.keyOf(colId, shade, fog));
   }
 
   // 通用网格绘制：支持可选模型矩阵（活动物体）与按朝向的动态光照
@@ -547,17 +555,24 @@ export class Renderer {
       const zm = (z0 + z1 + z2 + z3) / (i3 >= 0 ? 4 : 3);
       const fog = this.fogOf(zm);
       if (fog >= FOG_LEVELS) continue;
-      this.pX.length = 0;
-      this.pY.length = 0;
-      this.pX.push(this.cx + (this.sx[i0] / z0) * this.focal, this.cx + (this.sx[i1] / z1) * this.focal,
-        this.cx + (this.sx[i2] / z2) * this.focal);
-      this.pY.push(this.cy - (this.sy[i0] / z0) * this.focal, this.cy - (this.sy[i1] / z1) * this.focal,
-        this.cy - (this.sy[i2] / z2) * this.focal);
+      const px = this.pX;
+      const py = this.pY;
+      px[0] = this.cx + (this.sx[i0] / z0) * this.focal;
+      px[1] = this.cx + (this.sx[i1] / z1) * this.focal;
+      px[2] = this.cx + (this.sx[i2] / z2) * this.focal;
+      py[0] = this.cy - (this.sy[i0] / z0) * this.focal;
+      py[1] = this.cy - (this.sy[i1] / z1) * this.focal;
+      py[2] = this.cy - (this.sy[i2] / z2) * this.focal;
       if (i3 >= 0) {
-        this.pX.push(this.cx + (this.sx[i3] / z3) * this.focal);
-        this.pY.push(this.cy - (this.sy[i3] / z3) * this.focal);
+        px[3] = this.cx + (this.sx[i3] / z3) * this.focal;
+        py[3] = this.cy - (this.sy[i3] / z3) * this.focal;
+        px.length = 4;
+        py.length = 4;
+      } else {
+        px.length = 3;
+        py.length = 3;
       }
-      this.pushFace(this.pX, this.pY, zm, this.palette.keyOf(mesh.col[fi], this.dynShade(mesh, fi, cosY, sinY), fog));
+      this.pushFace(px, py, zm, this.palette.keyOf(mesh.col[fi], this.dynShade(mesh, fi, cosY, sinY), fog));
     }
   }
 
@@ -626,16 +641,19 @@ export class Renderer {
   }
 
   // ---------- 排序 + 同色合批填充 ----------
-  // 深度量化到 256 个 sqrt 非线性桶（O(n) 计数排序），
+  // 深度量化到 sqrt 非线性桶（O(n) 计数排序），
   // 桶内按「连续同色段」合并为一个 Path 一次 fill（fill 调用次数降 1~2 个数量级）
+  // bandsN 可在低画质下调小：桶越少同色合并率越高、fill 调用越少（代价是远近遮挡近似变粗）
+  bandsN: number = DEPTH_BANDS;
+
   flushGeometry(): void {
     const t0 = Date.now();
     const g = this.ctx;
     const n = this.fLen;
     if (n > 0) {
-      const bands = DEPTH_BANDS;
+      const bands = this.bandsN;
       const counts = this.bandCount;
-      counts.fill(0);
+      counts.fill(0, 0, bands + 1);
       let zSpan = this.maxZ - ZN;
       if (zSpan <= 0.001) zSpan = 0.001;
       // pass1: 计数

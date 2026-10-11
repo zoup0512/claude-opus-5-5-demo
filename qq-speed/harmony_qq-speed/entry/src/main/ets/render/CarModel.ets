@@ -43,10 +43,11 @@ function buildWheel(pal: Palette, rimCol: number): Mesh {
     const z0 = Math.sin(a0) * r;
     const y1 = Math.cos(a1) * r;
     const z1 = Math.sin(a1) * r;
-    // 胎侧（轴沿 X）
+    // 胎面环带（轴沿 X，法线朝外；深色胎面与轮辋色交替模拟辐条）
     b.quad(-w / 2, y0, z0, -w / 2, y1, z1, w / 2, y1, z1, w / 2, y0, z0, k % 2 === 0 ? tireC : rimC, -1);
-    // 胎面
-    b.quad(-w / 2, y0, z0, w / 2, y0, z0, w / 2, y1, z1, -w / 2, y1, z1, treadC, -1);
+    // 侧壁圆盘（±X 两面，法线朝外）
+    b.quad(-w / 2, 0, 0, -w / 2, y1, z1, -w / 2, y0, z0, -w / 2, y0, z0, treadC, -1);
+    b.quad(w / 2, 0, 0, w / 2, y0, z0, w / 2, y1, z1, w / 2, y1, z1, treadC, -1);
   }
   return b.build(400);
 }

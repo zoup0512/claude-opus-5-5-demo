@@ -242,7 +242,8 @@ export class Terrain {
           // 水面以下不画（水面由 Renderer 绘制）
           if (h00 < waterY - 0.3 && h10 < waterY - 0.3 && h11 < waterY - 0.3 && h01 < waterY - 0.3) continue;
           const col = this.colIdAt(x + cell / 2, z + cell / 2);
-          r.pushWorldQuad(x, h00, z, x1, h10, z, x1, h11, z1, x, h01, z1, col, 1);
+          // 顶点绕序保证面法线朝上（+Y），与渲染器的屏幕绕序背面剔除一致
+          r.pushWorldQuad(x, h00, z, x, h01, z1, x1, h11, z1, x1, h10, z, col, 1);
         }
       }
     }
