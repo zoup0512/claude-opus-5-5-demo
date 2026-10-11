@@ -1,0 +1,16 @@
+{
+  "string": [
+    {
+      "name": "module_desc",
+      "value": "CF 运输船 3D 射击游戏主模块"
+    },
+    {
+      "name": "EntryAbility_desc",
+      "value": "穿越火线「运输船」HarmonyOS 原生复刻"
+    },
+    {
+      "name": "EntryAbility_label",
+      "value": "运输船CF"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "name": "entry",
+  "version": "1.0.0",
+  "description": "CF 运输船主模块",
+  "main": "",
+  "author": "",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "libgameRenderer.so": "file:./src/main/cpp/types/libgameRenderer"
+  }
+}

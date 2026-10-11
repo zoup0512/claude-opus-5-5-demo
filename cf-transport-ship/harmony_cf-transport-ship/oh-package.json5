@@ -1,0 +1,12 @@
+{
+  "name": "harmony-cf-transport-ship",
+  "version": "1.0.0",
+  "description": "穿越火线「运输船」HarmonyOS 原生 3D 复刻",
+  "main": "",
+  "author": "",
+  "license": "Apache-2.0",
+  "dependencies": {},
+  "devDependencies": {
+    "@ohos/hypium": "1.0.21"
+  }
+}
