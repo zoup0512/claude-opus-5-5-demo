@@ -16,6 +16,7 @@ import { Particles, Confetti, SpeedLines, Scarf } from './effects.js';
 import { AudioEngine } from './audio.js';
 import { clamp, lerp, damp, smoothstep, TAU, mulberry32 } from './util.js';
 import { makeSpriteTexture } from './textures.js';
+import { initPK } from './net/pk.js';
 
 const Q = new URLSearchParams(location.search);
 const qp = (k, d) => (Q.has(k) ? Q.get(k) : d);
@@ -135,7 +136,7 @@ for (let i = 0; i < 12; i++) {
   m.add(halo);
   m.visible = false;
   scene.add(m);
-  fishes.push({ mesh: m, halo, active: false, x: 0, y: 0, z: 0, golden: false, phase: 0, caught: -1 });
+  fishes.push({ mesh: m, halo, active: false, x: 0, y: 0, z: 0, golden: false, phase: 0, caught: -1, delay: 0, wave: null, fish: -1 });
 }
 // 跃出海面的鱼
 const jumpers = [];
@@ -336,6 +337,7 @@ const SHOTS = [
 
 function setCamMode(id, quick = false) {
   if (id === camMode && !quick) return;
+  if (id === 'cine' && pk.active) return; // 对局中禁用电影运镜（看不到自己）
   camMode = id;
   blend.t = quick ? 1 : 0;
   blend.pos.copy(camera.position);
@@ -545,16 +547,18 @@ const raycaster = new THREE.Raycaster();
 const rnd = mulberry32(2024);
 
 function updateRide(dt) {
-  const up = keys.up;
-  const down = keys.down;
+  const lockPK = pk.locked();
+  const up = !lockPK && keys.up;
+  const down = lockPK || keys.down;
   let acc;
   if (S.airborne) acc = -0.15;
   else if (down) acc = -6;
   else if (up) acc = 2.4;
   else acc = (settings.cruise - S.speed) * 0.7;
   if (S.trickT > 0) acc = Math.min(acc, 0.2);
+  acc += pk.accelBonus();
   S.accel = damp(S.accel, acc, 6, dt);
-  S.speed = clamp(S.speed + acc * dt, 0, 15.5);
+  S.speed = clamp(S.speed + acc * dt, 0, pk.speedCap());
   S.pedaling = !S.airborne && !down && S.speed > 0.25 && acc > -0.4;
   S.distance += S.speed * dt;
   S.wheel += (S.speed / WHEEL_R) * dt;
@@ -584,11 +588,11 @@ function updateRide(dt) {
   S.cadence = (crankW * 60) / TAU;
 
   // 变道 / 自动驾驶
-  const steerIn = (keys.right ? 1 : 0) - (keys.left ? 1 : 0);
+  const steerIn = lockPK ? 0 : (keys.right ? 1 : 0) - (keys.left ? 1 : 0);
   if (steerIn) {
     S.lastSteer = S.time;
     S.laneTarget = clamp(S.laneTarget + steerIn * 2.4 * dt, -2.15, 2.15);
-  } else if (settings.autopilot && S.time - S.lastSteer > 4) {
+  } else if (settings.autopilot && !pk.active && S.time - S.lastSteer > 4) {
     const next = nextFish(40);
     const want = next ? next.z : 0.9 + Math.sin(S.time * 0.23) * 0.7;
     S.laneTarget = damp(S.laneTarget, want, next ? 2.2 : 0.8, dt);
@@ -645,6 +649,7 @@ function trick() {
   setTimeout(() => confetti.burst(tmpV.set(0.2, 1.8, S.lane)), 600);
   unlock('trick');
   if (S.tricks >= 3) unlock('trick3');
+  pk.onTrick();
 }
 function ringBell() {
   audio.bell();
@@ -653,12 +658,14 @@ function ringBell() {
   const b = bike.anchors.bell;
   b.scale.setScalar(1.25);
   setTimeout(() => b.scale.setScalar(1), 120);
+  pk.emote('bell');
 }
 function honk() {
   pelican.honk();
   audio.honk();
   S.honks++;
   unlock('honk');
+  pk.emote('honk');
 }
 
 // ---------------- 收集鱼 ----------------
@@ -682,22 +689,51 @@ function spawnFish(ahead = 85) {
   f.y = 1.3 + rnd() * 0.25;
   f.golden = rnd() < 0.12;
   f.phase = rnd() * TAU;
+  f.wave = null;
+  f.fish = -1;
+  f.delay = 0;
   f.mesh.material = f.golden ? goldMat : fishMat;
   f.halo.material.color.set(f.golden ? '#ffd257' : '#7fe3ff');
   f.mesh.visible = true;
   f.mesh.scale.setScalar(1.35);
 }
+// 在线 PK：按服务器波次在玩家前方布鱼（梯队展开，带出场延迟）
+function spawnWaveFish(w) {
+  for (const fd of w.fs) {
+    const f = fishes.find((x) => !x.active);
+    if (!f) break;
+    f.active = true;
+    f.caught = -1;
+    f.x = S.distance + 52 + fd.i * 3.4;
+    f.z = clamp(fd.z, -2.6, 2.6);
+    f.y = 1.3 + rnd() * 0.25;
+    f.golden = !!fd.go;
+    f.phase = rnd() * TAU;
+    f.wave = w.id;
+    f.fish = fd.i;
+    f.delay = fd.dl;
+    f.mesh.material = f.golden ? goldMat : fishMat;
+    f.halo.material.color.set(f.golden ? '#ffd257' : '#7fe3ff');
+    f.mesh.visible = false;
+    f.mesh.scale.setScalar(1.35);
+  }
+}
 const gold = new THREE.Color('#ffd257');
 const cyan = new THREE.Color('#9fefff');
 const white = new THREE.Color('#ffffff');
 function updateFishes(dt) {
-  if (S.distance > S.nextFishAt) {
+  if (!pk.active && S.distance > S.nextFishAt) {
     spawnFish(S.nextFishAt === 30 ? 32 : 85);
     S.nextFishAt = S.distance + 16 + rnd() * 18;
   }
   pelican.mouth.getWorldPosition(mouthW);
   for (const f of fishes) {
     if (!f.active) continue;
+    if (f.delay > 0) {
+      f.delay -= dt;
+      if (f.delay > 0) continue;
+      f.mesh.visible = true;
+    }
     const rel = f.x - S.distance;
     if (f.caught >= 0) {
       f.caught += dt;
@@ -723,8 +759,19 @@ function updateFishes(dt) {
     const dy = f.mesh.position.y - mouthW.y;
     if (Math.abs(dx) < 0.45 + S.speed * dt && Math.abs(dz) < 0.52 && Math.abs(dy) < 0.6) {
       f.caught = 0;
-      S.fish += f.golden ? 5 : 1;
-      if (f.golden) S.golden++;
+      if (pk.active) {
+        // 对局中：本地表现立即播放，得分由服务器核销后广播
+        pk.tryCatch(f);
+        S.fish += f.golden ? 5 : 1;
+        if (f.golden) S.golden++;
+      } else {
+        S.fish += f.golden ? 5 : 1;
+        if (f.golden) S.golden++;
+        unlock('fish1');
+        if (f.golden) unlock('golden');
+        if (S.fish >= 10) unlock('fish10');
+        if (S.fish >= 50) unlock('fish50');
+      }
       pelican.gulp();
       audio.gulp(f.golden);
       for (let i = 0; i < (f.golden ? 70 : 36); i++) {
@@ -732,10 +779,6 @@ function updateFishes(dt) {
         sparkles.emit(mouthW, tmpV2, rnd() < 0.5 ? (f.golden ? gold : cyan) : white, 0.035 + rnd() * 0.03, 0.6 + rnd() * 0.6, { drag: 3 });
       }
       popScore(f.golden ? '+5 金鱼!' : '+1', f.golden);
-      unlock('fish1');
-      if (f.golden) unlock('golden');
-      if (S.fish >= 10) unlock('fish10');
-      if (S.fish >= 50) unlock('fish50');
     }
   }
 }
@@ -1020,6 +1063,7 @@ addEventListener('keydown', (e) => {
       break;
     }
     case 'KeyN':
+      if (pk.active) break; // 对局中时刻由服务器锁定
       settings.hour = (settings.hour + 3) % 24;
       break;
     case 'KeyQ':
@@ -1042,7 +1086,11 @@ addEventListener('keydown', (e) => {
     case 'KeyU':
       document.body.classList.toggle('hide-ui');
       break;
+    case 'KeyG':
+      pk.useSkill?.();
+      break;
     case 'KeyP':
+      if (pk.active) break; // 对局中禁止暂停（服务器计时不停）
       S.paused = !S.paused;
       audio.mute(S.paused);
       toast(S.paused ? '⏸' : '▶️', S.paused ? '已暂停' : '继续骑行', '按 P 切换');
@@ -1132,6 +1180,7 @@ for (const event of ['pointerup', 'pointercancel', 'lostpointercapture']) {
 addEventListener('blur', releaseJoystick);
 addEventListener('orientationchange', releaseJoystick);
 const ACTIONS = {
+  pk: () => $('#pkEntry')?.click(),
   jump,
   trick,
   bell: ringBell,
@@ -1293,6 +1342,21 @@ $('#startMute').addEventListener('click', () => {
 if (qp('autostart', '0') === '1') start(false);
 setCamMode(camMode, true);
 
+// ---------------- 在线 PK ----------------
+const pk = initPK({
+  scene,
+  S,
+  settings,
+  audio,
+  envNight: () => env.night,
+  spawnWaveFish,
+  toast,
+  confetti: () => confetti.burst(tmpV.set(0.3, 1.9, S.lane)),
+  start,
+  setCamMode,
+  flashCut,
+});
+
 // ---------------- 主循环 ----------------
 const timer = new THREE.Timer();
 timer.connect(document);
@@ -1354,6 +1418,7 @@ function frame(ts) {
   updateFishes(dt);
   updateJumpers(dt);
   emitDust(dt);
+  pk.update(dt);
   if (S.started && rnd() < dt * 0.12) launchJumper(8 + rnd() * 30, -20 - rnd() * 25);
   const scroll = S.speed * dt;
   dust.update(dt, scroll);
@@ -1424,7 +1489,10 @@ window.__pelican = {
   honk,
   ringBell,
   spawnFish,
+  spawnWaveFish,
   launchJumper,
+  fishes,
+  pk,
   cine,
   renderer,
   get fps() {

@@ -237,6 +237,76 @@ body.cinematic.started .dash, body.cinematic.started .score, body.cinematic.star
 }
 @media (max-height: 420px) { .keys-hint, .intro-art { display: none; } }
 @media (prefers-reduced-motion: reduce) { .intro-art * { animation: none !important; } }
+
+/* ---------- 在线 PK ---------- */
+.modal { position: fixed; inset: 0; z-index: 42; display: grid; place-items: center; background: rgba(4, 6, 14, 0.58); backdrop-filter: blur(6px); padding: 16px; }
+.modal[hidden] { display: none; }
+.modal .panel { max-width: 460px; width: 100%; padding: 22px 24px; }
+.modal h3 { margin: 0 0 6px; display: flex; align-items: center; gap: 10px; }
+.modal h3 b { color: var(--accent); letter-spacing: 3px; font-size: 20px; }
+.lb-sub { color: var(--muted); font-size: 12.5px; margin: 0 0 14px; line-height: 1.6; }
+.lb-name { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.lb-name label { font-size: 13px; color: var(--muted); flex: none; }
+.lb-name input, .lb-join input { flex: 1; min-width: 0; background: rgba(255, 255, 255, 0.07); border: 1px solid var(--stroke); border-radius: 10px; padding: 10px 12px; color: var(--text); font: inherit; outline: none; }
+.lb-name input:focus, .lb-join input:focus { border-color: var(--accent-2); }
+.lb-grid { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 8px; }
+.lb-join { display: flex; gap: 10px; margin-top: 12px; }
+.lb-join input { text-transform: uppercase; letter-spacing: 4px; text-align: center; font-weight: 700; }
+.lb-dur { margin-top: 12px; font-size: 12.5px; color: var(--muted); display: flex; align-items: center; gap: 8px; justify-content: center; }
+.lb-dur select { background: rgba(255, 255, 255, 0.07); border: 1px solid var(--stroke); border-radius: 8px; color: var(--text); padding: 5px 8px; font: inherit; outline: none; }
+.lb-status { margin-top: 12px; text-align: center; font-size: 13px; color: var(--accent-2); min-height: 18px; }
+.lb-status.err { color: var(--danger); }
+.lb-back { display: block; margin: 10px auto 0; }
+.room-players { display: flex; flex-direction: column; gap: 8px; margin: 10px 0; }
+.room-p { display: flex; align-items: center; gap: 10px; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--stroke); border-radius: 10px; padding: 10px 12px; }
+.room-p .dot { width: 9px; height: 9px; border-radius: 50%; background: #666; flex: none; }
+.room-p.online .dot { background: var(--accent-2); box-shadow: 0 0 8px var(--accent-2); }
+.room-p b { flex: 1; }
+.room-p .tag { font-size: 11.5px; color: var(--muted); }
+.room-p .rd { font-size: 12px; color: var(--muted); border: 1px solid var(--stroke); border-radius: 8px; padding: 3px 8px; }
+.room-p .rd.on { color: #062; background: #7ce38b; border-color: transparent; font-weight: 700; }
+/* 对局顶栏 */
+#pkHud { position: fixed; top: calc(max(14px, env(safe-area-inset-top)) + 4px); left: 50%; transform: translateX(-50%); z-index: 22; display: flex; align-items: stretch; gap: 10px; pointer-events: none; }
+#pkHud[hidden] { display: none; }
+.pk-side { background: var(--glass-strong); border: 1px solid var(--stroke); border-radius: 14px; padding: 8px 16px; min-width: 118px; text-align: center; backdrop-filter: blur(10px); }
+.pk-side b { display: block; font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 130px; }
+.pk-side .pk-score { font-size: 26px; font-weight: 900; line-height: 1.15; }
+.pk-side.me { border-color: rgba(63, 208, 201, 0.5); }
+.pk-side.me .pk-score { color: var(--accent-2); }
+.pk-side.opp { border-color: rgba(255, 90, 110, 0.5); }
+.pk-side.opp .pk-score { color: var(--danger); }
+.pk-mid { display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--glass-strong); border: 1px solid var(--stroke); border-radius: 14px; padding: 6px 14px; backdrop-filter: blur(10px); }
+#pkTimer { font-size: 19px; font-weight: 800; font-variant-numeric: tabular-nums; }
+#pkTimer.hot { color: var(--danger); animation: pulse 1s infinite; }
+#pkOvertime { font-size: 10.5px; color: #ffd257; white-space: nowrap; }
+#pkOppDist { position: absolute; top: calc(100% + 4px); left: 50%; transform: translateX(-50%); font-size: 11px; color: var(--muted); background: rgba(0, 0, 0, 0.3); border-radius: 8px; padding: 2px 8px; white-space: nowrap; }
+@keyframes pulse { 50% { opacity: 0.55; } }
+/* 技能按钮 */
+#skillHud { position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%); z-index: 22; }
+#skillHud[hidden] { display: none; }
+#skillBtn { border: 1px solid rgba(255, 210, 87, 0.6); background: rgba(35, 28, 8, 0.72); backdrop-filter: blur(10px); color: #ffe08a; border-radius: 50%; width: 74px; height: 74px; font-size: 26px; cursor: pointer; display: grid; place-items: center; place-content: center; gap: 1px; box-shadow: 0 6px 24px rgba(255, 180, 0, 0.25); animation: skillPulse 1.6s infinite; }
+#skillBtn small { font-size: 9.5px; color: rgba(255, 224, 138, 0.8); }
+@keyframes skillPulse { 50% { box-shadow: 0 6px 34px rgba(255, 180, 0, 0.55); } }
+/* 倒计时 */
+#pkCountdown { position: fixed; inset: 0; z-index: 44; display: grid; place-items: center; pointer-events: none; font-size: clamp(90px, 22vw, 200px); font-weight: 900; color: #fff; text-shadow: 0 8px 60px rgba(63, 208, 201, 0.8), 0 2px 12px rgba(0, 0, 0, 0.6); }
+#pkCountdown span { animation: cdPop 0.9s ease-out; display: block; }
+@keyframes cdPop { 0% { transform: scale(2.1); opacity: 0; } 22% { transform: scale(1); opacity: 1; } 82% { opacity: 1; } 100% { opacity: 0; } }
+/* 迷雾技能 */
+#fogFx { position: fixed; inset: 0; z-index: 21; pointer-events: none; background: radial-gradient(60% 55% at 50% 46%, rgba(200, 214, 226, 0) 30%, rgba(197, 210, 222, 0.85) 78%, rgba(180, 196, 210, 0.97) 100%); opacity: 0; transition: opacity 0.7s; }
+#fogFx.on { opacity: 1; }
+/* 结算 */
+#result .panel { max-width: 420px; text-align: center; }
+#resultTitle { font-size: 34px; font-weight: 900; margin-bottom: 2px; }
+#resultTitle.win { color: var(--accent-2); }
+#resultTitle.lose { color: var(--danger); }
+#resultTitle.draw { color: var(--accent); }
+#resultSub { color: var(--muted); font-size: 13px; margin-bottom: 14px; }
+.result-table { display: grid; grid-template-columns: 1fr auto 1fr; gap: 6px 14px; font-size: 13.5px; align-items: center; background: rgba(255, 255, 255, 0.04); border: 1px solid var(--stroke); border-radius: 12px; padding: 12px 16px; margin-bottom: 14px; }
+.result-table .h { color: var(--muted); font-size: 12px; grid-column: 2; text-align: center; }
+.result-table .v { font-weight: 700; font-variant-numeric: tabular-nums; }
+.result-table .v.me { color: var(--accent-2); text-align: left; }
+.result-table .v.opp { color: var(--danger); text-align: right; }
+@media (max-width: 560px) { .pk-side { min-width: 92px; padding: 6px 10px; } .pk-side .pk-score { font-size: 21px; } #pkTimer { font-size: 15px; } }
 </style>
 </head>
 <body class="bars">
@@ -271,6 +341,7 @@ body.cinematic.started .dash, body.cinematic.started .score, body.cinematic.star
     </div>
     <div class="cta">
       <button class="btn-primary" id="startBtn">开始骑行 ▶</button>
+      <button class="btn-primary" id="pkEntry" style="background:linear-gradient(135deg,#2ea8a1,#1f7d8f)">⚔️ 在线对战</button>
       <button class="btn-ghost" id="startMute">静音进入</button>
     </div>
     <div class="keys-hint">
@@ -284,6 +355,69 @@ body.cinematic.started .dash, body.cinematic.started .score, body.cinematic.star
   </div>
 </section>
 
+<!-- 在线 PK：大厅 -->
+<section id="lobby" class="modal" hidden>
+  <div class="panel">
+    <h3>⚔️ 双人在线对战</h3>
+    <p class="lb-sub">和好友骑进同一片海岸线！服务器下发相同的刷鱼波次，拼手速抢鱼；金鱼 +5 分还会掉落干扰技能。限时结束分高者胜。</p>
+    <div class="lb-name"><label>昵称</label><input id="pkName" maxlength="12" placeholder="骑手昵称" /></div>
+    <div class="lb-grid">
+      <button class="btn-primary" id="pkQuick">⚡ 快速匹配</button>
+      <button class="btn-ghost" id="pkCreate">🏠 创建房间</button>
+    </div>
+    <div class="lb-join">
+      <input id="pkCode" maxlength="4" placeholder="房间码" autocapitalize="characters" />
+      <button class="btn-ghost" id="pkJoin">加入 ▶</button>
+    </div>
+    <div class="lb-dur">对局时长
+      <select id="pkDur"><option value="120">2 分钟</option><option value="180" selected>3 分钟</option><option value="300">5 分钟</option></select>
+      <span style="opacity:.7">（房主设定）</span>
+    </div>
+    <div class="lb-status" id="pkLobbyStatus"></div>
+    <button class="btn-ghost lb-back" id="pkLobbyBack">返回</button>
+  </div>
+</section>
+
+<!-- 在线 PK：房间 -->
+<section id="roomPanel" class="modal" hidden>
+  <div class="panel">
+    <h3>房间 <b id="roomCode">----</b></h3>
+    <p class="lb-sub">把房间码发给好友即可开战；也可以复制邀请链接。</p>
+    <div class="room-players" id="roomPlayers"></div>
+    <div class="lb-status" id="roomStatus"></div>
+    <div class="lb-grid">
+      <button class="btn-primary" id="roomReady">准备 ✓</button>
+      <button class="btn-primary" id="roomStart" hidden>开始对战 ▶</button>
+      <button class="btn-ghost" id="roomCopy">🔗 复制邀请链接</button>
+      <button class="btn-ghost" id="roomLeave">退出房间</button>
+    </div>
+  </div>
+</section>
+
+<!-- 在线 PK：对局 HUD -->
+<div id="pkHud" hidden>
+  <div class="pk-side me"><b id="pkMyName">我</b><span class="pk-score" id="pkMyScore">0</span></div>
+  <div class="pk-mid"><span id="pkTimer">3:00</span><span id="pkOvertime" hidden>🥇 金鱼决胜</span><span id="pkOppDist"></span></div>
+  <div class="pk-side opp"><b id="pkOppName">对手</b><span class="pk-score" id="pkOppScore">0</span></div>
+</div>
+<div id="skillHud" hidden><button id="skillBtn" title="释放技能 (G)"><span id="skillIcon">💨</span><small>按 G 释放</small></button></div>
+<div id="pkCountdown" hidden><span>3</span></div>
+<div id="fogFx"></div>
+
+<!-- 在线 PK：结算 -->
+<section id="result" class="modal" hidden>
+  <div class="panel">
+    <div id="resultTitle">🏆 胜利！</div>
+    <div id="resultSub"></div>
+    <div class="result-table" id="resultStats"></div>
+    <div class="lb-grid">
+      <button class="btn-primary" id="resultAgain">再来一局 ⚔️</button>
+      <button class="btn-ghost" id="resultLobby">回到房间</button>
+    </div>
+    <div class="lb-status" id="resultStatus"></div>
+  </div>
+</section>
+
 <div class="hud">
   <div class="brand panel"><span class="logo">🐦</span><div><b>鹈鹕骑单车</b><small>Pelican on a Bike · 实时 3D</small></div></div>
   <div class="cams panel">
@@ -294,6 +428,7 @@ body.cinematic.started .dash, body.cinematic.started .score, body.cinematic.star
     <button data-cam="pov">鹈鹕视角</button>
   </div>
   <div class="tools panel">
+    <button class="icon-btn" data-act="pk" title="在线对战">⚔️</button>
     <button class="icon-btn" data-act="shot" title="截图 (K)">📸</button>
     <button class="icon-btn" data-act="music" title="音乐 (M)">🎵</button>
     <button class="icon-btn" data-act="share" title="复制分享链接">🔗</button>
