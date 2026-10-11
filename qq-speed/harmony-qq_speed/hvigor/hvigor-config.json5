@@ -1,0 +1,14 @@
+{
+  "modelVersion": "5.0.0",
+  "dependencies": {},
+  "execution": {
+    // "analyze": "normal",              /* 定义服务级任务的分析类型 */
+    // "daemon": true,                   /* 启用hvigor进程常驻 */
+    // "incremental": true,              /* 增量编译 */
+    // "parallel": true,                 /* 并行编译 */
+    // "typeCheck": false                /* 类型检查 */
+  },
+  "logging": {},
+  "debugging": {},
+  "nodeOptions": {}
+}
