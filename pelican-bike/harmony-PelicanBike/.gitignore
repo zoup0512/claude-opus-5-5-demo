@@ -46,8 +46,6 @@ tools/device/last-unsigned-hap.txt
 entry/sign/debug/
 
 # 可再生的构建产物与未引用的临时截图（不入库）
-packed-assets/*.pak
-entry/src/main/resources/rawfile/*.pak
 native-staging/audio/tests/output/
 docs/audio/*.wav
 screenshots/
