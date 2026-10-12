@@ -1,0 +1,57 @@
+{
+  "app": {
+    "products": [
+      {
+        "name": "default",
+        "signingConfig": "default",
+        "compileSdkVersion": "6.1.1(24)",
+        "compatibleSdkVersion": "6.1.1(24)",
+        "targetSdkVersion": "6.1.1(24)",
+        "runtimeOS": "HarmonyOS",
+        "buildOption": {
+          "strictMode": {
+            "caseSensitiveCheck": true,
+            "useNormalizedOHMUrl": true
+          }
+        }
+      }
+    ],
+    "buildModeSet": [
+      {
+        "name": "debug"
+      },
+      {
+        "name": "release"
+      }
+    ],
+    "signingConfigs": [
+      {
+        "name": "default",
+        "type": "HarmonyOS",
+        "material": {
+          "certpath": "C:\\Users\\vyron\\.ohos\\config\\default_harmony-PelicanBike_khSZ4D7kyTmIHLNAjowP7SNDNEOkHue-SpZFo8ygOvc=.cer",
+          "keyAlias": "debugKey",
+          "keyPassword": "0000001B5325D8B2E4F38C9C45FD6E2FEF97ED308026E9EA8A9921D92727E42724EC44B301F28D2A1259D3",
+          "profile": "C:\\Users\\vyron\\.ohos\\config\\default_harmony-PelicanBike_khSZ4D7kyTmIHLNAjowP7SNDNEOkHue-SpZFo8ygOvc=.p7b",
+          "signAlg": "SHA256withECDSA",
+          "storeFile": "C:\\Users\\vyron\\.ohos\\config\\default_harmony-PelicanBike_khSZ4D7kyTmIHLNAjowP7SNDNEOkHue-SpZFo8ygOvc=.p12",
+          "storePassword": "0000001B63AB43EC2839E7E9ABB8CA3040E4E77BFF8147B216B4C160FD4D3E7E84EE4DBF4408CBBDAD70FF"
+        }
+      }
+    ]
+  },
+  "modules": [
+    {
+      "name": "entry",
+      "srcPath": "./entry",
+      "targets": [
+        {
+          "name": "default",
+          "applyToProducts": [
+            "default"
+          ]
+        }
+      ]
+    }
+  ]
+}

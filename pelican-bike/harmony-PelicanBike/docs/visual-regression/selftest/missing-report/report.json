@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "tool": "pelican-bike-visual-compare",
+  "tool_version": "1.0.0",
+  "generated_at": "2026-10-04T15:37:15+00:00",
+  "config": "D:\\workspace\\My\\harmony\\harmony-PelicanBike\\docs\\visual-regression\\selftest\\missing-config.json",
+  "pillow_version": "12.3.0",
+  "canvas": {
+    "width": 160,
+    "height": 120
+  },
+  "paths": {
+    "baseline_dir": "D:\\workspace\\My\\harmony\\harmony-PelicanBike\\docs\\visual-regression\\selftest\\missing-baselines",
+    "actual_dir": "D:\\workspace\\My\\harmony\\harmony-PelicanBike\\docs\\visual-regression\\selftest\\missing-actuals",
+    "output_dir": "D:\\workspace\\My\\harmony\\harmony-PelicanBike\\docs\\visual-regression\\selftest\\missing-report"
+  },
+  "summary": {
+    "total": 1,
+    "compared": 0,
+    "passed": 0,
+    "failed": 0,
+    "missing": 1,
+    "errors": 0
+  },
+  "status": "missing_inputs",
+  "warnings": [
+    "Baseline directory does not exist: D:\\workspace\\My\\harmony\\harmony-PelicanBike\\docs\\visual-regression\\selftest\\missing-baselines",
+    "Actual screenshot directory does not exist: D:\\workspace\\My\\harmony\\harmony-PelicanBike\\docs\\visual-regression\\selftest\\missing-actuals"
+  ],
+  "scenes": [
+    {
+      "name": "missing-scene",
+      "status": "missing",
+      "patterns": {
+        "baseline": [
+          "missing.png"
+        ],
+        "actual": [
+          "missing.png"
+        ]
+      },
+      "candidate_count": {
+        "baseline": 0,
+        "actual": 0
+      },
+      "missing": [
+        "baseline",
+        "actual"
+      ]
+    }
+  ]
+}

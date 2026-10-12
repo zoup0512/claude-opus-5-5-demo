@@ -1,0 +1,14 @@
+{
+  "name": "pelican-bike-asset-exporter",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "export": "node ./export.mjs",
+    "validate": "node ./validate.mjs",
+    "all": "node ./export.mjs && node ./validate.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

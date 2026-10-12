@@ -1,0 +1,8 @@
+{
+  "modelVersion": "6.1.0",
+  "name": "harmony-pelican-bike",
+  "version": "1.0.0",
+  "description": "Pelican Bike HarmonyOS Native C++ shell",
+  "dependencies": {},
+  "devDependencies": {}
+}

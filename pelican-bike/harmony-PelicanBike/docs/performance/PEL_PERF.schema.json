@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pelican-bike.local/schemas/pel-perf-v1.schema.json",
+  "title": "Pelican Bike PEL_PERF v1 record",
+  "description": "JSON payload following the literal single-line prefix 'PEL_PERF '.",
+  "type": "object",
+  "required": ["v", "event"],
+  "properties": {
+    "v": { "const": 1 },
+    "event": { "enum": ["begin", "sample", "end", "error", "host_begin", "host_end"] },
+    "runId": { "type": "string", "minLength": 1 },
+    "scenario": { "type": "string", "minLength": 1 },
+    "quality": { "enum": ["low", "medium", "high", "ultra"] },
+    "tsMs": { "type": "number", "minimum": 0 },
+    "frame": { "type": "number", "minimum": 0 },
+    "fps": { "type": "number", "exclusiveMinimum": 0 },
+    "frameCpuMs": { "type": "number", "minimum": 0 },
+    "frameGpuMs": { "type": "number", "minimum": 0 },
+    "frameMs": { "type": "number", "minimum": 0 },
+    "drawCalls": { "type": "number", "minimum": 0 },
+    "triangles": { "type": "number", "minimum": 0 },
+    "heapMiB": { "type": "number", "minimum": 0 },
+    "rssMiB": { "type": "number", "minimum": 0 },
+    "gpuMiB": { "type": "number", "minimum": 0 },
+    "distanceM": { "type": "number" },
+    "hour": { "type": "number", "minimum": 0, "exclusiveMaximum": 24 },
+    "surfaceWidth": { "type": "number", "exclusiveMinimum": 0 },
+    "surfaceHeight": { "type": "number", "exclusiveMinimum": 0 },
+    "renderScale": { "type": "number", "exclusiveMinimum": 0, "maximum": 1 },
+    "resources": {
+      "type": "object",
+      "properties": {
+        "textures": { "type": "number", "minimum": 0 },
+        "buffers": { "type": "number", "minimum": 0 },
+        "framebuffers": { "type": "number", "minimum": 0 },
+        "renderbuffers": { "type": "number", "minimum": 0 },
+        "programs": { "type": "number", "minimum": 0 },
+        "vaos": { "type": "number", "minimum": 0 },
+        "glErrors": { "type": "number", "minimum": 0 },
+        "contextLosses": { "type": "number", "minimum": 0 }
+      },
+      "additionalProperties": true
+    },
+    "result": { "enum": ["pass", "fail"] },
+    "reason": { "type": "string" },
+    "checks": { "type": "object", "additionalProperties": true }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "event": { "const": "sample" } }, "required": ["event"] },
+      "then": {
+        "required": [
+          "runId",
+          "scenario",
+          "quality",
+          "tsMs",
+          "fps",
+          "frameCpuMs",
+          "drawCalls",
+          "triangles",
+          "heapMiB",
+          "resources"
+        ]
+      }
+    },
+    {
+      "if": { "properties": { "event": { "const": "end" } }, "required": ["event"] },
+      "then": { "required": ["runId", "scenario", "quality", "tsMs", "result", "checks"] }
+    }
+  ],
+  "additionalProperties": true
+}

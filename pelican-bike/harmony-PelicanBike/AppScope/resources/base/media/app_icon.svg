@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="108" height="108" viewBox="0 0 108 108" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#55C9F5"/>
+      <stop offset="1" stop-color="#087FAE"/>
+    </linearGradient>
+  </defs>
+  <rect width="108" height="108" rx="24" fill="url(#sea)"/>
+  <circle cx="31" cy="72" r="15" fill="none" stroke="#F7FBFF" stroke-width="4"/>
+  <circle cx="77" cy="72" r="15" fill="none" stroke="#F7FBFF" stroke-width="4"/>
+  <path d="M31 72 L45 49 L60 72 L77 72 L64 48 L49 48" fill="none" stroke="#F7FBFF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M44 31 C53 21 70 22 78 32 C69 30 62 34 58 42 C51 41 46 37 44 31 Z" fill="#FFF4CF"/>
+  <path d="M77 32 L91 37 L77 40 Z" fill="#FFB342"/>
+</svg>

@@ -1,0 +1,795 @@
+{
+  "canvas": {
+    "width": 1320,
+    "height": 2856,
+    "description": "Huawei Pura 90 portrait capture and same-size web baseline"
+  },
+  "paths": {
+    "baseline_dir": "../../docs/web-baseline",
+    "actual_dir": "../../emulator/screenshots",
+    "output_dir": "../../docs/visual-regression/latest"
+  },
+  "alignment": {
+    "mode": "letterbox",
+    "background": "#08111f",
+    "anchor": [
+      0.5,
+      0.5
+    ],
+    "filter": "lanczos"
+  },
+  "comparison": {
+    "changed_pixel_threshold": 12,
+    "ssim_max_dimension": 256,
+    "fail_on_rois": false
+  },
+  "mask": {
+    "safe_area": {
+      "enabled": true,
+      "unit": "px",
+      "top": 126,
+      "bottom": 126,
+      "left": 0,
+      "right": 0
+    },
+    "default_ignore": [
+      "fps",
+      "particles",
+      "time"
+    ],
+    "ignore_region_sets": {
+      "fps": [
+        {
+          "unit": "normalized",
+          "rect": [
+            0.69,
+            0.025,
+            0.30,
+            0.075
+          ]
+        }
+      ],
+      "particles": [
+        {
+          "unit": "normalized",
+          "rect": [
+            0.0,
+            0.18,
+            1.0,
+            0.10
+          ]
+        }
+      ],
+      "time": [
+        {
+          "unit": "normalized",
+          "rect": [
+            0.58,
+            0.82,
+            0.41,
+            0.10
+          ]
+        }
+      ],
+      "event_hud_values": [
+        {
+          "unit": "normalized",
+          "rect": [
+            0.0,
+            0.47,
+            0.28,
+            0.08
+          ]
+        },
+        {
+          "unit": "normalized",
+          "rect": [
+            0.72,
+            0.47,
+            0.28,
+            0.08
+          ]
+        },
+        {
+          "unit": "normalized",
+          "rect": [
+            0.0,
+            0.80,
+            0.28,
+            0.14
+          ]
+        },
+        {
+          "unit": "normalized",
+          "rect": [
+            0.72,
+            0.80,
+            0.28,
+            0.14
+          ]
+        }
+      ],
+      "event_notifications": [
+        {
+          "unit": "normalized",
+          "rect": [
+            0.30,
+            0.30,
+            0.40,
+            0.045
+          ]
+        },
+        {
+          "unit": "normalized",
+          "rect": [
+            0.30,
+            0.12,
+            0.40,
+            0.08
+          ]
+        }
+      ],
+      "gulp_cloth_motion": [
+        {
+          "unit": "normalized",
+          "rect": [
+            0.29,
+            0.39,
+            0.18,
+            0.08
+          ]
+        },
+        {
+          "unit": "normalized",
+          "rect": [
+            0.29,
+            0.31,
+            0.18,
+            0.055
+          ]
+        }
+      ],
+      "ambient_birds": [
+        {
+          "unit": "normalized",
+          "rect": [
+            0.02,
+            0.38,
+            0.07,
+            0.04
+          ]
+        },
+        {
+          "unit": "normalized",
+          "rect": [
+            0.56,
+            0.38,
+            0.08,
+            0.04
+          ]
+        },
+        {
+          "unit": "normalized",
+          "rect": [
+            0.10,
+            0.335,
+            0.08,
+            0.025
+          ]
+        },
+        {
+          "unit": "normalized",
+          "rect": [
+            0.02,
+            0.19,
+            0.07,
+            0.06
+          ]
+        },
+        {
+          "unit": "normalized",
+          "rect": [
+            0.56,
+            0.19,
+            0.08,
+            0.06
+          ]
+        },
+        {
+          "unit": "normalized",
+          "rect": [
+            0.10,
+            0.0,
+            0.08,
+            0.035
+          ]
+        }
+      ],
+      "offshore_splash_particles": [
+        {
+          "unit": "normalized",
+          "rect": [
+            0.37,
+            0.505,
+            0.08,
+            0.045
+          ]
+        },
+        {
+          "unit": "normalized",
+          "rect": [
+            0.37,
+            0.565,
+            0.08,
+            0.075
+          ]
+        }
+      ]
+    }
+  },
+  "thresholds": {
+    "mae_max": 28.0,
+    "rmse_max": 52.0,
+    "psnr_min": 13.5,
+    "ssim_min": 0.55,
+    "edge_structure_min": 0.25,
+    "histogram_distance_max": 0.28,
+    "changed_pixel_ratio_max": 0.55,
+    "visual_score_min": 58.0
+  },
+  "roi_thresholds": {
+    "*": {
+      "ssim_min": 0.42,
+      "visual_score_min": 50.0
+    },
+    "rider": {
+      "mae_max": 36.0,
+      "ssim_min": 0.48,
+      "visual_score_min": 52.0
+    },
+    "HUD": {
+      "mae_max": 34.0,
+      "ssim_min": 0.50,
+      "visual_score_min": 54.0
+    }
+  },
+  "rois": {
+    "sky": {
+      "unit": "normalized",
+      "rect": [
+        0.0,
+        0.045,
+        1.0,
+        0.27
+      ]
+    },
+    "ocean": {
+      "unit": "normalized",
+      "rect": [
+        0.0,
+        0.285,
+        1.0,
+        0.20
+      ]
+    },
+    "road": {
+      "unit": "normalized",
+      "polygon": [
+        [
+          0.0,
+          0.54
+        ],
+        [
+          1.0,
+          0.49
+        ],
+        [
+          1.0,
+          0.89
+        ],
+        [
+          0.0,
+          0.89
+        ]
+      ]
+    },
+    "rider": {
+      "unit": "normalized",
+      "rect": [
+        0.20,
+        0.34,
+        0.61,
+        0.37
+      ]
+    },
+    "HUD": {
+      "regions": [
+        {
+          "unit": "normalized",
+          "rect": [
+            0.0,
+            0.0,
+            1.0,
+            0.18
+          ]
+        },
+        {
+          "unit": "normalized",
+          "rect": [
+            0.0,
+            0.76,
+            1.0,
+            0.24
+          ]
+        }
+      ]
+    },
+    "topbar": {
+      "unit": "normalized",
+      "rect": [
+        0.0,
+        0.0,
+        1.0,
+        0.16
+      ]
+    },
+    "controls": {
+      "regions": [
+        {
+          "unit": "normalized",
+          "rect": [
+            0.0,
+            0.70,
+            0.34,
+            0.27
+          ]
+        },
+        {
+          "unit": "normalized",
+          "rect": [
+            0.66,
+            0.70,
+            0.34,
+            0.27
+          ]
+        }
+      ]
+    }
+  },
+  "scenes": {
+    "day-orbit": {
+      "baseline": [
+        "01-day-12-orbit.png",
+        "day-orbit.png",
+        "*day*orbit*.png"
+      ],
+      "actual": [
+        "day-orbit.png",
+        "pura90-day-orbit.png",
+        "01-day-12-orbit.png",
+        "*day*orbit*.png"
+      ]
+    },
+    "sunset-orbit": {
+      "baseline": [
+        "02-sunset-17.35-orbit.png",
+        "sunset-orbit.png",
+        "*sunset*orbit*.png"
+      ],
+      "actual": [
+        "sunset-orbit.png",
+        "pura90-sunset-orbit.png",
+        "02-sunset-17.35-orbit.png",
+        "*sunset*orbit*.png"
+      ]
+    },
+    "night-orbit": {
+      "baseline": [
+        "03-night-23-orbit.png",
+        "night-orbit.png",
+        "*night*orbit*.png"
+      ],
+      "actual": [
+        "night-orbit.png",
+        "pura90-night-orbit.png",
+        "03-night-23-orbit.png",
+        "*night*orbit*.png"
+      ]
+    },
+    "ride-chase": {
+      "baseline": [
+        "04-chase.png",
+        "ride-chase.png",
+        "chase.png",
+        "*chase*.png"
+      ],
+      "actual": [
+        "ride-chase.png",
+        "pura90-ride-chase.png",
+        "04-chase.png",
+        "*chase*.png"
+      ]
+    },
+    "ride-side": {
+      "baseline": [
+        "05-side.png",
+        "ride-side.png",
+        "side.png",
+        "*side*.png"
+      ],
+      "actual": [
+        "ride-side.png",
+        "pura90-ride-side.png",
+        "05-side.png",
+        "*side*.png"
+      ]
+    },
+    "ride-cine": {
+      "baseline": [
+        "06-cine.png",
+        "ride-cine.png",
+        "cine.png",
+        "*cine*.png"
+      ],
+      "actual": [
+        "ride-cine.png",
+        "pura90-ride-cine.png",
+        "06-cine.png",
+        "*cine*.png"
+      ]
+    },
+    "ride-pov": {
+      "baseline": [
+        "07-pov.png",
+        "ride-pov.png",
+        "pov.png",
+        "*pov*.png"
+      ],
+      "actual": [
+        "ride-pov.png",
+        "pura90-ride-pov.png",
+        "07-pov.png",
+        "*pov*.png"
+      ],
+      "rois": {
+        "rider": {
+          "enabled": false
+        }
+      }
+    },
+    "jump": {
+      "baseline": [
+        "08-jump.png",
+        "jump.png",
+        "08-*jump*.png"
+      ],
+      "actual": [
+        "jump.png",
+        "pura90-jump.png",
+        "08-jump.png",
+        "08-*jump*.png"
+      ]
+    },
+    "trick": {
+      "baseline": [
+        "09-trick.png",
+        "trick.png",
+        "*trick*.png"
+      ],
+      "actual": [
+        "trick.png",
+        "pura90-trick.png",
+        "09-trick.png",
+        "*trick*.png"
+      ]
+    },
+    "fish-normal-gulp": {
+      "baseline": [
+        "10-fish-normal-gulp.png",
+        "fish-normal-gulp.png",
+        "*fish*normal*gulp*.png"
+      ],
+      "actual": [
+        "fish-normal-gulp.png",
+        "pura90-fish-normal-gulp.png",
+        "10-fish-normal-gulp.png",
+        "*fish*normal*gulp*.png"
+      ],
+      "ignore": [
+        "event_hud_values",
+        "event_notifications",
+        "gulp_cloth_motion"
+      ],
+      "rois": {
+        "gulp_fish": {
+          "regions": [
+            {
+              "unit": "normalized",
+              "rect": [
+                0.48,
+                0.40,
+                0.15,
+                0.08
+              ]
+            },
+            {
+              "unit": "normalized",
+              "rect": [
+                0.48,
+                0.31,
+                0.15,
+                0.13
+              ]
+            }
+          ]
+        },
+        "beak_and_gulp": {
+          "regions": [
+            {
+              "unit": "normalized",
+              "rect": [
+                0.43,
+                0.36,
+                0.23,
+                0.18
+              ]
+            },
+            {
+              "unit": "normalized",
+              "rect": [
+                0.43,
+                0.25,
+                0.23,
+                0.25
+              ]
+            }
+          ]
+        },
+        "basket_fish": {
+          "regions": [
+            {
+              "unit": "normalized",
+              "rect": [
+                0.53,
+                0.51,
+                0.14,
+                0.10
+              ]
+            },
+            {
+              "unit": "normalized",
+              "rect": [
+                0.53,
+                0.52,
+                0.14,
+                0.15
+              ]
+            }
+          ]
+        }
+      },
+      "roi_thresholds": {
+        "gulp_fish": {
+          "mae_max": 40.0,
+          "ssim_min": 0.40,
+          "edge_structure_min": 0.18,
+          "visual_score_min": 46.0
+        },
+        "beak_and_gulp": {
+          "ssim_min": 0.44,
+          "visual_score_min": 49.0
+        }
+      }
+    },
+    "fish-golden-gulp": {
+      "baseline": [
+        "11-fish-golden-gulp.png",
+        "fish-golden-gulp.png",
+        "*fish*golden*gulp*.png"
+      ],
+      "actual": [
+        "fish-golden-gulp.png",
+        "pura90-fish-golden-gulp.png",
+        "11-fish-golden-gulp.png",
+        "*fish*golden*gulp*.png"
+      ],
+      "ignore": [
+        "event_hud_values",
+        "event_notifications",
+        "gulp_cloth_motion"
+      ],
+      "rois": {
+        "golden_fish": {
+          "regions": [
+            {
+              "unit": "normalized",
+              "rect": [
+                0.48,
+                0.40,
+                0.15,
+                0.08
+              ]
+            },
+            {
+              "unit": "normalized",
+              "rect": [
+                0.48,
+                0.31,
+                0.15,
+                0.13
+              ]
+            }
+          ]
+        },
+        "beak_and_gulp": {
+          "regions": [
+            {
+              "unit": "normalized",
+              "rect": [
+                0.43,
+                0.36,
+                0.23,
+                0.18
+              ]
+            },
+            {
+              "unit": "normalized",
+              "rect": [
+                0.43,
+                0.25,
+                0.23,
+                0.25
+              ]
+            }
+          ]
+        },
+        "basket_fish": {
+          "regions": [
+            {
+              "unit": "normalized",
+              "rect": [
+                0.53,
+                0.51,
+                0.14,
+                0.10
+              ]
+            },
+            {
+              "unit": "normalized",
+              "rect": [
+                0.53,
+                0.52,
+                0.14,
+                0.15
+              ]
+            }
+          ]
+        }
+      },
+      "roi_thresholds": {
+        "golden_fish": {
+          "mae_max": 42.0,
+          "ssim_min": 0.38,
+          "edge_structure_min": 0.16,
+          "histogram_distance_max": 0.34,
+          "visual_score_min": 44.0
+        },
+        "beak_and_gulp": {
+          "ssim_min": 0.42,
+          "visual_score_min": 47.0
+        }
+      }
+    },
+    "offshore-jumping-fish": {
+      "baseline": [
+        "12-offshore-jumping-fish.png",
+        "offshore-jumping-fish.png",
+        "*offshore*jumping*fish*.png"
+      ],
+      "actual": [
+        "offshore-jumping-fish.png",
+        "pura90-offshore-jumping-fish.png",
+        "12-offshore-jumping-fish.png",
+        "*offshore*jumping*fish*.png"
+      ],
+      "ignore": [
+        "event_hud_values",
+        "event_notifications",
+        "ambient_birds",
+        "offshore_splash_particles"
+      ],
+      "rois": {
+        "rider": {
+          "enabled": false
+        },
+        "road": {
+          "unit": "normalized",
+          "polygon": [
+            [
+              0.0,
+              0.79
+            ],
+            [
+              1.0,
+              0.76
+            ],
+            [
+              1.0,
+              0.92
+            ],
+            [
+              0.0,
+              0.94
+            ]
+          ]
+        },
+        "ocean": {
+          "unit": "normalized",
+          "rect": [
+            0.0,
+            0.48,
+            1.0,
+            0.21
+          ]
+        },
+        "jumping_fish": {
+          "regions": [
+            {
+              "unit": "normalized",
+              "rect": [
+                0.39,
+                0.48,
+                0.065,
+                0.045
+              ]
+            },
+            {
+              "unit": "normalized",
+              "rect": [
+                0.39,
+                0.515,
+                0.065,
+                0.075
+              ]
+            }
+          ]
+        },
+        "offshore_action": {
+          "regions": [
+            {
+              "unit": "normalized",
+              "rect": [
+                0.34,
+                0.455,
+                0.16,
+                0.10
+              ]
+            },
+            {
+              "unit": "normalized",
+              "rect": [
+                0.34,
+                0.49,
+                0.16,
+                0.17
+              ]
+            }
+          ]
+        }
+      },
+      "roi_thresholds": {
+        "jumping_fish": {
+          "mae_max": 44.0,
+          "ssim_min": 0.34,
+          "edge_structure_min": 0.12,
+          "visual_score_min": 40.0
+        },
+        "offshore_action": {
+          "mae_max": 40.0,
+          "ssim_min": 0.38,
+          "visual_score_min": 44.0
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "app": {
+    "bundleName": "com.riba2534.pelicanbike",
+    "vendor": "riba2534",
+    "versionCode": 1,
+    "versionName": "1.0.0",
+    "icon": "$media:app_icon",
+    "label": "$string:app_name",
+    "minAPIVersion": 24,
+    "targetAPIVersion": 24
+  }
+}

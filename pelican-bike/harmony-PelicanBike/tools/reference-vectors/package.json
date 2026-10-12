@@ -1,0 +1,16 @@
+{
+  "name": "pelican-bike-reference-vectors",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "generate": "node generate.mjs",
+    "verify": "node verify.mjs"
+  },
+  "dependencies": {
+    "three": "0.186.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

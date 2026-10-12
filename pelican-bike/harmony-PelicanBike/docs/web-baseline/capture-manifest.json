@@ -1,0 +1,389 @@
+{
+  "generatedAt": "2026-10-04T16:13:05.228Z",
+  "baseUrl": "http://127.0.0.1:5608/",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "commonParams": {
+    "autostart": "1",
+    "freeze": "1",
+    "dt": "0.0166667",
+    "q": "high",
+    "speed": "7.5"
+  },
+  "captures": [
+    {
+      "file": "01-day-12-orbit.png",
+      "label": "day(12/orbit)",
+      "search": "?autostart=1&freeze=1&dt=0.0166667&q=high&speed=7.5&time=12&cam=orbit",
+      "viewport": [
+        1440,
+        900
+      ],
+      "canvas": [
+        1440,
+        900
+      ],
+      "hour": 12,
+      "cam": "orbit",
+      "speedMps": 4.800693818364145,
+      "speedKmh": 17.282497746110923,
+      "distance": 0.7004512259994662,
+      "lane": 0.9000153985308058,
+      "t": 0.15000030000000003,
+      "airborne": false,
+      "y": 0,
+      "vy": 0,
+      "trick": 0,
+      "trickT": 0,
+      "fishScore": 0,
+      "goldenCount": 0,
+      "fps": 4,
+      "webgl": "WebGL2",
+      "bodyClass": "bars started ready",
+      "errors": []
+    },
+    {
+      "file": "02-sunset-17.35-orbit.png",
+      "label": "sunset(17.35/orbit)",
+      "search": "?autostart=1&freeze=1&dt=0.0166667&q=high&speed=7.5&time=17.35&cam=orbit",
+      "viewport": [
+        1440,
+        900
+      ],
+      "canvas": [
+        1440,
+        900
+      ],
+      "hour": 17.35,
+      "cam": "orbit",
+      "speedMps": 4.800693818364145,
+      "speedKmh": 17.282497746110923,
+      "distance": 0.7004512259994662,
+      "lane": 0.9000153985308058,
+      "t": 0.15000030000000003,
+      "airborne": false,
+      "y": 0,
+      "vy": 0,
+      "trick": 0,
+      "trickT": 0,
+      "fishScore": 0,
+      "goldenCount": 0,
+      "fps": 4,
+      "webgl": "WebGL2",
+      "bodyClass": "bars started ready",
+      "errors": []
+    },
+    {
+      "file": "03-night-23-orbit.png",
+      "label": "night(23/orbit)",
+      "search": "?autostart=1&freeze=1&dt=0.0166667&q=high&speed=7.5&time=23&cam=orbit",
+      "viewport": [
+        1440,
+        900
+      ],
+      "canvas": [
+        1440,
+        900
+      ],
+      "hour": 23,
+      "cam": "orbit",
+      "speedMps": 4.800693818364145,
+      "speedKmh": 17.282497746110923,
+      "distance": 0.7004512259994662,
+      "lane": 0.9000153985308058,
+      "t": 0.15000030000000003,
+      "airborne": false,
+      "y": 0,
+      "vy": 0,
+      "trick": 0,
+      "trickT": 0,
+      "fishScore": 0,
+      "goldenCount": 0,
+      "fps": 4,
+      "webgl": "WebGL2",
+      "bodyClass": "bars started ready",
+      "errors": []
+    },
+    {
+      "file": "04-chase.png",
+      "label": "chase",
+      "search": "?autostart=1&freeze=1&dt=0.0166667&q=high&speed=7.5&time=17.35&cam=chase",
+      "viewport": [
+        1440,
+        900
+      ],
+      "canvas": [
+        1440,
+        900
+      ],
+      "hour": 17.35,
+      "cam": "chase",
+      "speedMps": 5.1552672903801895,
+      "speedKmh": 18.558962245368683,
+      "distance": 1.6998302642340222,
+      "lane": 0.9000621775151776,
+      "t": 0.35000069999999994,
+      "airborne": false,
+      "y": 0,
+      "vy": 0,
+      "trick": 0,
+      "trickT": 0,
+      "fishScore": 0,
+      "goldenCount": 0,
+      "fps": 4,
+      "webgl": "WebGL2",
+      "bodyClass": "bars started ready",
+      "errors": []
+    },
+    {
+      "file": "05-side.png",
+      "label": "side",
+      "search": "?autostart=1&freeze=1&dt=0.0166667&q=high&speed=7.5&time=17.35&cam=side",
+      "viewport": [
+        1440,
+        900
+      ],
+      "canvas": [
+        1440,
+        900
+      ],
+      "hour": 17.35,
+      "cam": "side",
+      "speedMps": 5.1552672903801895,
+      "speedKmh": 18.558962245368683,
+      "distance": 1.6998302642340222,
+      "lane": 0.9000621775151776,
+      "t": 0.35000069999999994,
+      "airborne": false,
+      "y": 0,
+      "vy": 0,
+      "trick": 0,
+      "trickT": 0,
+      "fishScore": 0,
+      "goldenCount": 0,
+      "fps": 4,
+      "webgl": "WebGL2",
+      "bodyClass": "bars started ready",
+      "errors": []
+    },
+    {
+      "file": "06-cine.png",
+      "label": "cine",
+      "search": "?autostart=1&freeze=1&dt=0.0166667&q=high&speed=7.5&time=17.35&cam=cine",
+      "viewport": [
+        1440,
+        900
+      ],
+      "canvas": [
+        864,
+        540
+      ],
+      "hour": 17.35,
+      "cam": "cine",
+      "speedMps": 6.791657205950875,
+      "speedKmh": 24.44996594142315,
+      "distance": 12.139429104653168,
+      "lane": 0.9002084323156715,
+      "t": 2.050004100000003,
+      "airborne": false,
+      "y": 0,
+      "vy": 0,
+      "trick": 0,
+      "trickT": 0,
+      "fishScore": 0,
+      "goldenCount": 0,
+      "fps": 4,
+      "webgl": "WebGL2",
+      "bodyClass": "bars started cinematic ready",
+      "errors": []
+    },
+    {
+      "file": "07-pov.png",
+      "label": "pov",
+      "search": "?autostart=1&freeze=1&dt=0.0166667&q=high&speed=7.5&time=17.35&cam=pov",
+      "viewport": [
+        1440,
+        900
+      ],
+      "canvas": [
+        1440,
+        900
+      ],
+      "hour": 17.35,
+      "cam": "pov",
+      "speedMps": 5.0135703364696536,
+      "speedKmh": 18.048853211290755,
+      "distance": 1.274891613484476,
+      "lane": 0.9000645618362437,
+      "t": 0.26666720000000005,
+      "airborne": false,
+      "y": 0,
+      "vy": 0,
+      "trick": 0,
+      "trickT": 0,
+      "fishScore": 0,
+      "goldenCount": 0,
+      "fps": 4,
+      "webgl": "WebGL2",
+      "bodyClass": "bars started ready",
+      "errors": []
+    },
+    {
+      "file": "08-jump.png",
+      "label": "跳跃",
+      "search": "?autostart=1&freeze=1&dt=0.0166667&q=high&speed=7.5&time=17.35&cam=orbit",
+      "viewport": [
+        1440,
+        900
+      ],
+      "canvas": [
+        1152,
+        720
+      ],
+      "hour": 17.35,
+      "cam": "orbit",
+      "speedMps": 4.561279884017469,
+      "speedKmh": 16.42060758246289,
+      "distance": 1.5265052288768146,
+      "lane": 0.9000580540084674,
+      "t": 0.33333399999999996,
+      "airborne": true,
+      "y": 0.4674998299977901,
+      "vy": -0.08334069999999993,
+      "trick": 0,
+      "trickT": 0,
+      "fishScore": 0,
+      "goldenCount": 0,
+      "fps": 4,
+      "webgl": "WebGL2",
+      "bodyClass": "bars started ready",
+      "errors": []
+    },
+    {
+      "file": "09-trick.png",
+      "label": "特技",
+      "search": "?autostart=1&freeze=1&dt=0.0166667&q=high&speed=7.5&time=17.35&cam=orbit",
+      "viewport": [
+        1440,
+        900
+      ],
+      "canvas": [
+        1152,
+        720
+      ],
+      "hour": 17.35,
+      "cam": "orbit",
+      "speedMps": 4.733780229017475,
+      "speedKmh": 17.04160882446291,
+      "distance": 3.2642697924553974,
+      "lane": 0.900135658011035,
+      "t": 0.7000014000000002,
+      "airborne": false,
+      "y": 0,
+      "vy": 0,
+      "trick": 0.9257268080072687,
+      "trickT": 2.7499986999999986,
+      "fishScore": 0,
+      "goldenCount": 0,
+      "fps": 4,
+      "webgl": "WebGL2",
+      "bodyClass": "bars started ready",
+      "errors": []
+    },
+    {
+      "file": "10-fish-normal-gulp.png",
+      "label": "普通鱼吞食",
+      "search": "?autostart=1&freeze=1&dt=0.0166667&q=high&speed=7.5&time=17.35&cam=orbit",
+      "viewport": [
+        1440,
+        900
+      ],
+      "canvas": [
+        1440,
+        900
+      ],
+      "hour": 17.35,
+      "cam": "orbit",
+      "speedMps": 4.768830105872021,
+      "speedKmh": 17.167788381139275,
+      "distance": 0.6204395023369365,
+      "lane": 0.9000122972230683,
+      "t": 0.13333360000000002,
+      "airborne": false,
+      "y": 0,
+      "vy": 0,
+      "trick": 0,
+      "trickT": 0,
+      "fishScore": 0,
+      "goldenCount": 0,
+      "fps": 5.376344086021505,
+      "webgl": "WebGL2",
+      "bodyClass": "bars started ready",
+      "errors": []
+    },
+    {
+      "file": "11-fish-golden-gulp.png",
+      "label": "金鱼吞食",
+      "search": "?autostart=1&freeze=1&dt=0.0166667&q=high&speed=7.5&time=17.35&cam=orbit",
+      "viewport": [
+        1440,
+        900
+      ],
+      "canvas": [
+        1440,
+        900
+      ],
+      "hour": 17.35,
+      "cam": "orbit",
+      "speedMps": 4.768830105872021,
+      "speedKmh": 17.167788381139275,
+      "distance": 0.6204395023369365,
+      "lane": 0.9000122972230683,
+      "t": 0.13333360000000002,
+      "airborne": false,
+      "y": 0,
+      "vy": 0,
+      "trick": 0,
+      "trickT": 0,
+      "fishScore": 5,
+      "goldenCount": 1,
+      "fps": 5.712109672635365,
+      "webgl": "WebGL2",
+      "bodyClass": "bars started ready",
+      "errors": []
+    },
+    {
+      "file": "12-offshore-jumping-fish.png",
+      "label": "远海跃鱼",
+      "search": "?autostart=1&freeze=1&dt=0.0166667&q=high&speed=7.5&time=17.35&cam=orbit",
+      "viewport": [
+        1440,
+        900
+      ],
+      "canvas": [
+        1440,
+        900
+      ],
+      "hour": 17.35,
+      "cam": "orbit",
+      "speedMps": 5.390282834213151,
+      "speedKmh": 19.405018203167344,
+      "distance": 2.493012956608476,
+      "lane": 0.900097467422379,
+      "t": 0.5000009999999998,
+      "airborne": false,
+      "y": 0,
+      "vy": 0,
+      "trick": 0,
+      "trickT": 0,
+      "fishScore": 0,
+      "goldenCount": 0,
+      "fps": 4,
+      "webgl": "WebGL2",
+      "bodyClass": "bars started ready",
+      "errors": []
+    }
+  ]
+}

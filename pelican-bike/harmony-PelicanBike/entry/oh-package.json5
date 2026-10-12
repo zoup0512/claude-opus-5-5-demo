@@ -1,0 +1,11 @@
+{
+  "name": "entry",
+  "version": "1.0.0",
+  "description": "鹈鹕骑行 entry module",
+  "main": "",
+  "author": "riba2534",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "libpelican.so": "file:./src/main/cpp/types/libpelican"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "name": "libpelican.so",
+  "types": "./index.d.ts",
+  "version": "2.0.0",
+  "description": "Pelican Bike integrated C++17 simulation, scene, audio and ArkTS bridge"
+}

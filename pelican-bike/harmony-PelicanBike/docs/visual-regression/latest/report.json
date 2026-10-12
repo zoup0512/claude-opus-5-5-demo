@@ -1,0 +1,323 @@
+{
+  "schema_version": 1,
+  "tool": "pelican-bike-visual-compare",
+  "tool_version": "1.0.0",
+  "generated_at": "2026-10-04T16:17:26+00:00",
+  "config": "D:\\workspace\\My\\harmony\\harmony-PelicanBike\\tools\\visual-regression\\config.pura90.json",
+  "pillow_version": "12.3.0",
+  "canvas": {
+    "width": 1320,
+    "height": 2856
+  },
+  "paths": {
+    "baseline_dir": "D:\\workspace\\My\\harmony\\harmony-PelicanBike\\docs\\web-baseline",
+    "actual_dir": "D:\\workspace\\My\\harmony\\harmony-PelicanBike\\emulator\\screenshots",
+    "output_dir": "D:\\workspace\\My\\harmony\\harmony-PelicanBike\\docs\\visual-regression\\latest"
+  },
+  "summary": {
+    "total": 12,
+    "compared": 0,
+    "passed": 0,
+    "failed": 0,
+    "missing": 12,
+    "errors": 0
+  },
+  "status": "missing_inputs",
+  "warnings": [
+    "Actual screenshot directory does not exist: D:\\workspace\\My\\harmony\\harmony-PelicanBike\\emulator\\screenshots"
+  ],
+  "scenes": [
+    {
+      "name": "day-orbit",
+      "status": "missing",
+      "patterns": {
+        "baseline": [
+          "01-day-12-orbit.png",
+          "day-orbit.png",
+          "*day*orbit*.png"
+        ],
+        "actual": [
+          "day-orbit.png",
+          "pura90-day-orbit.png",
+          "01-day-12-orbit.png",
+          "*day*orbit*.png"
+        ]
+      },
+      "candidate_count": {
+        "baseline": 1,
+        "actual": 0
+      },
+      "missing": [
+        "actual"
+      ]
+    },
+    {
+      "name": "sunset-orbit",
+      "status": "missing",
+      "patterns": {
+        "baseline": [
+          "02-sunset-17.35-orbit.png",
+          "sunset-orbit.png",
+          "*sunset*orbit*.png"
+        ],
+        "actual": [
+          "sunset-orbit.png",
+          "pura90-sunset-orbit.png",
+          "02-sunset-17.35-orbit.png",
+          "*sunset*orbit*.png"
+        ]
+      },
+      "candidate_count": {
+        "baseline": 1,
+        "actual": 0
+      },
+      "missing": [
+        "actual"
+      ]
+    },
+    {
+      "name": "night-orbit",
+      "status": "missing",
+      "patterns": {
+        "baseline": [
+          "03-night-23-orbit.png",
+          "night-orbit.png",
+          "*night*orbit*.png"
+        ],
+        "actual": [
+          "night-orbit.png",
+          "pura90-night-orbit.png",
+          "03-night-23-orbit.png",
+          "*night*orbit*.png"
+        ]
+      },
+      "candidate_count": {
+        "baseline": 1,
+        "actual": 0
+      },
+      "missing": [
+        "actual"
+      ]
+    },
+    {
+      "name": "ride-chase",
+      "status": "missing",
+      "patterns": {
+        "baseline": [
+          "04-chase.png",
+          "ride-chase.png",
+          "chase.png",
+          "*chase*.png"
+        ],
+        "actual": [
+          "ride-chase.png",
+          "pura90-ride-chase.png",
+          "04-chase.png",
+          "*chase*.png"
+        ]
+      },
+      "candidate_count": {
+        "baseline": 1,
+        "actual": 0
+      },
+      "missing": [
+        "actual"
+      ]
+    },
+    {
+      "name": "ride-side",
+      "status": "missing",
+      "patterns": {
+        "baseline": [
+          "05-side.png",
+          "ride-side.png",
+          "side.png",
+          "*side*.png"
+        ],
+        "actual": [
+          "ride-side.png",
+          "pura90-ride-side.png",
+          "05-side.png",
+          "*side*.png"
+        ]
+      },
+      "candidate_count": {
+        "baseline": 1,
+        "actual": 0
+      },
+      "missing": [
+        "actual"
+      ]
+    },
+    {
+      "name": "ride-cine",
+      "status": "missing",
+      "patterns": {
+        "baseline": [
+          "06-cine.png",
+          "ride-cine.png",
+          "cine.png",
+          "*cine*.png"
+        ],
+        "actual": [
+          "ride-cine.png",
+          "pura90-ride-cine.png",
+          "06-cine.png",
+          "*cine*.png"
+        ]
+      },
+      "candidate_count": {
+        "baseline": 1,
+        "actual": 0
+      },
+      "missing": [
+        "actual"
+      ]
+    },
+    {
+      "name": "ride-pov",
+      "status": "missing",
+      "patterns": {
+        "baseline": [
+          "07-pov.png",
+          "ride-pov.png",
+          "pov.png",
+          "*pov*.png"
+        ],
+        "actual": [
+          "ride-pov.png",
+          "pura90-ride-pov.png",
+          "07-pov.png",
+          "*pov*.png"
+        ]
+      },
+      "candidate_count": {
+        "baseline": 1,
+        "actual": 0
+      },
+      "missing": [
+        "actual"
+      ]
+    },
+    {
+      "name": "jump",
+      "status": "missing",
+      "patterns": {
+        "baseline": [
+          "08-jump.png",
+          "jump.png",
+          "08-*jump*.png"
+        ],
+        "actual": [
+          "jump.png",
+          "pura90-jump.png",
+          "08-jump.png",
+          "08-*jump*.png"
+        ]
+      },
+      "candidate_count": {
+        "baseline": 1,
+        "actual": 0
+      },
+      "missing": [
+        "actual"
+      ]
+    },
+    {
+      "name": "trick",
+      "status": "missing",
+      "patterns": {
+        "baseline": [
+          "09-trick.png",
+          "trick.png",
+          "*trick*.png"
+        ],
+        "actual": [
+          "trick.png",
+          "pura90-trick.png",
+          "09-trick.png",
+          "*trick*.png"
+        ]
+      },
+      "candidate_count": {
+        "baseline": 1,
+        "actual": 0
+      },
+      "missing": [
+        "actual"
+      ]
+    },
+    {
+      "name": "fish-normal-gulp",
+      "status": "missing",
+      "patterns": {
+        "baseline": [
+          "10-fish-normal-gulp.png",
+          "fish-normal-gulp.png",
+          "*fish*normal*gulp*.png"
+        ],
+        "actual": [
+          "fish-normal-gulp.png",
+          "pura90-fish-normal-gulp.png",
+          "10-fish-normal-gulp.png",
+          "*fish*normal*gulp*.png"
+        ]
+      },
+      "candidate_count": {
+        "baseline": 1,
+        "actual": 0
+      },
+      "missing": [
+        "actual"
+      ]
+    },
+    {
+      "name": "fish-golden-gulp",
+      "status": "missing",
+      "patterns": {
+        "baseline": [
+          "11-fish-golden-gulp.png",
+          "fish-golden-gulp.png",
+          "*fish*golden*gulp*.png"
+        ],
+        "actual": [
+          "fish-golden-gulp.png",
+          "pura90-fish-golden-gulp.png",
+          "11-fish-golden-gulp.png",
+          "*fish*golden*gulp*.png"
+        ]
+      },
+      "candidate_count": {
+        "baseline": 1,
+        "actual": 0
+      },
+      "missing": [
+        "actual"
+      ]
+    },
+    {
+      "name": "offshore-jumping-fish",
+      "status": "missing",
+      "patterns": {
+        "baseline": [
+          "12-offshore-jumping-fish.png",
+          "offshore-jumping-fish.png",
+          "*offshore*jumping*fish*.png"
+        ],
+        "actual": [
+          "offshore-jumping-fish.png",
+          "pura90-offshore-jumping-fish.png",
+          "12-offshore-jumping-fish.png",
+          "*offshore*jumping*fish*.png"
+        ]
+      },
+      "candidate_count": {
+        "baseline": 1,
+        "actual": 0
+      },
+      "missing": [
+        "actual"
+      ]
+    }
+  ]
+}

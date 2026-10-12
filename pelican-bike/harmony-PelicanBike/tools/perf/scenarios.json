@@ -1,0 +1,158 @@
+{
+  "schemaVersion": 1,
+  "order": [
+    "soak10m",
+    "dayNight24h",
+    "chunkBoundaries",
+    "cameraSwitch",
+    "background100",
+    "surfaceResizeRotate",
+    "screenshots20"
+  ],
+  "scenarios": {
+    "soak10m": {
+      "driver": "engine",
+      "durationSec": 600,
+      "hostTailSec": 5,
+      "description": "10-minute autoplay soak at normal simulation speed.",
+      "engineParams": {
+        "perfScenario": "soak10m",
+        "perfDurationSec": "600",
+        "perfAutostart": "1"
+      },
+      "requiredEndChecks": [
+        "sample_count",
+        "finite_state",
+        "resources",
+        "errors"
+      ]
+    },
+    "dayNight24h": {
+      "driver": "engine",
+      "durationSec": 180,
+      "hostTailSec": 5,
+      "description": "Advance exactly 24 in-game hours in 180 wall-clock seconds while rendering every frame.",
+      "engineParams": {
+        "perfScenario": "dayNight24h",
+        "perfTimeScale": "480",
+        "perfGameHours": "24",
+        "perfAutostart": "1"
+      },
+      "requiredEndChecks": [
+        "completed_cycles",
+        "finite_state",
+        "resources",
+        "errors"
+      ]
+    },
+    "chunkBoundaries": {
+      "driver": "engine",
+      "durationSec": 150,
+      "hostTailSec": 5,
+      "description": "Exercise every 72 m chunk recycle seam around the 36 km floating-origin/modulo boundary.",
+      "engineParams": {
+        "perfScenario": "chunkBoundaries",
+        "perfDistanceStartM": "35856",
+        "perfDistanceEndM": "36144",
+        "perfDistanceStepM": "0.5",
+        "perfAutostart": "1"
+      },
+      "assertions": {
+        "crossed36000m": true,
+        "crossed72m": true,
+        "chunkSlots": 7,
+        "uniqueChunkIndices": 7,
+        "finiteTransforms": true
+      },
+      "requiredEndChecks": [
+        "crossed_36000m",
+        "crossed_72m",
+        "chunk_slots_unique",
+        "finite_state",
+        "resources",
+        "errors"
+      ]
+    },
+    "cameraSwitch": {
+      "driver": "engine",
+      "durationSec": 120,
+      "hostTailSec": 5,
+      "description": "Continuously switch orbit/chase/side/cine/pov with a 250 ms cadence and no scene reload.",
+      "engineParams": {
+        "perfScenario": "cameraSwitch",
+        "perfCameraIntervalMs": "250",
+        "perfCameraSwitches": "400",
+        "perfAutostart": "1"
+      },
+      "requiredEndChecks": [
+        "completed_switches",
+        "finite_camera",
+        "frame_time",
+        "resources",
+        "errors"
+      ]
+    },
+    "background100": {
+      "driver": "host",
+      "durationSec": 260,
+      "hostTailSec": 5,
+      "description": "Send HOME and relaunch the same ability 100 times, retaining the engine run ID.",
+      "cycles": 100,
+      "backgroundHoldMs": 600,
+      "foregroundHoldMs": 1200,
+      "engineParams": {
+        "perfScenario": "background100",
+        "perfExpectedCycles": "100",
+        "perfAutostart": "1"
+      },
+      "requiredEndChecks": [
+        "completed_cycles",
+        "resume_latency",
+        "surface_recovery",
+        "resources",
+        "errors"
+      ]
+    },
+    "surfaceResizeRotate": {
+      "driver": "host+ohosTest",
+      "durationSec": 140,
+      "hostTailSec": 5,
+      "description": "Alternate portrait/landscape and resize the native surface 40 times.",
+      "cycles": 40,
+      "holdMs": 1500,
+      "rotationCommand": "",
+      "rotationCommandContract": "Set this to a device-confirmed shell command containing {rotation}, or run an ohosTest case that calls Driver.setDisplayRotation(ROTATION_0/ROTATION_90). An empty value deliberately fails instead of pretending a touchpad rotation changed the display.",
+      "engineParams": {
+        "perfScenario": "surfaceResizeRotate",
+        "perfExpectedCycles": "40",
+        "perfAutostart": "1"
+      },
+      "requiredEndChecks": [
+        "completed_cycles",
+        "resize_latency",
+        "finite_viewport",
+        "resources",
+        "errors"
+      ]
+    },
+    "screenshots20": {
+      "driver": "host",
+      "durationSec": 90,
+      "hostTailSec": 5,
+      "description": "Capture and pull 20 UITest screenshots while gameplay continues.",
+      "count": 20,
+      "intervalMs": 2500,
+      "engineParams": {
+        "perfScenario": "screenshots20",
+        "perfExpectedCaptures": "20",
+        "perfAutostart": "1"
+      },
+      "requiredEndChecks": [
+        "completed_captures",
+        "capture_success",
+        "resources",
+        "errors"
+      ]
+    }
+  }
+}

@@ -1,0 +1,109 @@
+{
+  "schemaVersion": 1,
+  "deviceProfile": {
+    "name": "Pura 90 portrait budget profile",
+    "width": 1320,
+    "height": 2856,
+    "refreshHz": 120,
+    "note": "Resolution is the planning/capture size. Refresh capability and all runtime measurements must be confirmed on the actual device."
+  },
+  "qualityProfiles": {
+    "low": {
+      "label": "流畅",
+      "renderScale": 0.60,
+      "shadow": { "enabled": true, "mapSize": 1024, "cascadeCount": 1, "casterDistanceM": 28 },
+      "bloom": { "enabled": false, "scale": 0.0, "levels": 0 },
+      "antiAliasing": { "msaaSamples": 1, "fxaa": true },
+      "instanceDensity": 0.50,
+      "targetFps": 60,
+      "minimumFps": 50
+    },
+    "medium": {
+      "label": "均衡",
+      "renderScale": 0.72,
+      "shadow": { "enabled": true, "mapSize": 1536, "cascadeCount": 1, "casterDistanceM": 40 },
+      "bloom": { "enabled": true, "scale": 0.5, "levels": 5 },
+      "antiAliasing": { "msaaSamples": 1, "fxaa": true },
+      "instanceDensity": 0.80,
+      "targetFps": 60,
+      "minimumFps": 54
+    },
+    "high": {
+      "label": "精美",
+      "renderScale": 0.85,
+      "shadow": { "enabled": true, "mapSize": 2048, "cascadeCount": 1, "casterDistanceM": 55 },
+      "bloom": { "enabled": true, "scale": 0.5, "levels": 5 },
+      "antiAliasing": { "msaaSamples": 2, "fxaa": false },
+      "instanceDensity": 1.00,
+      "targetFps": 60,
+      "minimumFps": 54
+    },
+    "ultra": {
+      "label": "极致",
+      "renderScale": 1.00,
+      "shadow": { "enabled": true, "mapSize": 3072, "cascadeCount": 1, "casterDistanceM": 70 },
+      "bloom": { "enabled": true, "scale": 0.5, "levels": 5 },
+      "antiAliasing": { "msaaSamples": 4, "fxaa": false },
+      "instanceDensity": 1.25,
+      "targetFps": 45,
+      "minimumFps": 40
+    }
+  },
+  "memoryBudget": {
+    "displayBuffers": 3,
+    "formats": {
+      "displayColorBytesPerPixel": 4,
+      "depthStencilBytesPerPixel": 4,
+      "hdrBytesPerPixel": 8
+    },
+    "assumptions": [
+      "Low renders directly to the default RGB(A)8 + depth/stencil surface and uses FXAA only if the engine has an offscreen LDR target.",
+      "Medium uses one full-resolution RGBA16F scene target plus one full-resolution RGBA16F post target.",
+      "High/Ultra use multisampled RGBA8 color and D24S8 depth, resolve to one RGBA16F scene target, then use one RGBA16F post target.",
+      "Bloom is five-level half-resolution RGBA16F ping-pong storage; transient driver tiling/compression is not assumed.",
+      "The estimate includes three default color buffers because swapchain ownership is implementation-dependent; use dumps or driver tooling to replace this estimate on device."
+    ],
+    "profiles": {
+      "low": { "renderWidth": 792, "renderHeight": 1714, "colorMiB": 15.54, "depthMiB": 0.00, "hdrMiB": 0.00, "bloomMiB": 0.00, "subtotalMiB": 15.54, "guardedMiB": 18.64, "limitMiB": 32 },
+      "medium": { "renderWidth": 951, "renderHeight": 2057, "colorMiB": 37.31, "depthMiB": 7.46, "hdrMiB": 14.92, "bloomMiB": 9.96, "subtotalMiB": 69.66, "guardedMiB": 83.59, "limitMiB": 96 },
+      "high": { "renderWidth": 1122, "renderHeight": 2428, "colorMiB": 72.74, "depthMiB": 20.78, "hdrMiB": 20.78, "bloomMiB": 13.86, "subtotalMiB": 128.17, "guardedMiB": 153.80, "limitMiB": 160 },
+      "ultra": { "renderWidth": 1320, "renderHeight": 2856, "colorMiB": 129.43, "depthMiB": 57.52, "hdrMiB": 28.76, "bloomMiB": 19.16, "subtotalMiB": 234.88, "guardedMiB": 281.85, "limitMiB": 320 }
+    },
+    "globalGpuResourceLimitMiB": 384,
+    "globalProcessRssLimitMiB": 768
+  },
+  "thresholds": {
+    "minimumSamples": 20,
+    "fps": { "medianRatioMin": 0.95, "p05RatioMin": 0.80, "belowMinimumRatioMax": 0.05 },
+    "frameCpuMs": { "p95MaxByQuality": { "low": 13.0, "medium": 13.0, "high": 13.5, "ultra": 18.0 } },
+    "frameGpuMs": { "p95MaxByQuality": { "low": 15.5, "medium": 15.5, "high": 16.0, "ultra": 21.5 } },
+    "frameTotalMs": { "p99BudgetMultiplier": 1.50, "hitchMultiplier": 2.0, "hitchRatioMax": 0.01 },
+    "drawCalls": { "maxByQuality": { "low": 170, "medium": 210, "high": 260, "ultra": 320 } },
+    "triangles": { "maxByQuality": { "low": 350000, "medium": 550000, "high": 850000, "ultra": 1200000 } },
+    "heap": { "maxMiB": 256, "growthMiBPerMinMax": 1.0, "netGrowthMiBMax": 24.0 },
+    "rss": { "maxMiB": 768, "growthMiBPerMinMax": 2.0, "netGrowthMiBMax": 64.0 },
+    "gpuMemory": { "maxMiB": 384, "growthMiBPerMinMax": 1.0, "netGrowthMiBMax": 32.0 },
+    "resourceGrowth": {
+      "texturesMax": 2,
+      "buffersMax": 4,
+      "framebuffersMax": 2,
+      "renderbuffersMax": 2,
+      "programsMax": 1,
+      "vaosMax": 4
+    },
+    "errors": { "glErrorsMax": 0, "contextLossesMax": 0, "fatalEventsMax": 0, "crashesMax": 0, "anrsMax": 0 },
+    "recovery": { "foregroundResumeMsMax": 2000, "surfaceReadyMsMax": 1500, "resizeReadyMsMax": 1200, "screenshotFailuresMax": 0 },
+    "scenario": {
+      "requiredEndEvent": true,
+      "requiredChecks": {
+        "soak10m": ["sample_count", "fps", "frame_cpu", "frame_gpu", "heap", "gpu_memory", "resources", "errors"],
+        "dayNight24h": ["completed_cycles", "finite_state", "resources", "errors"],
+        "chunkBoundaries": ["crossed_36000m", "crossed_72m", "chunk_slots_unique", "finite_state", "resources", "errors"],
+        "cameraSwitch": ["completed_switches", "finite_camera", "frame_time", "resources", "errors"],
+        "background100": ["completed_cycles", "resume_latency", "surface_recovery", "resources", "errors"],
+        "surfaceResizeRotate": ["completed_cycles", "resize_latency", "finite_viewport", "resources", "errors"],
+        "screenshots20": ["completed_captures", "capture_success", "resources", "errors"]
+      }
+    }
+  }
+}
