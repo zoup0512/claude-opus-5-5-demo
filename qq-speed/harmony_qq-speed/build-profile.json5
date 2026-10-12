@@ -5,13 +5,13 @@
         "name": "default",
         "type": "HarmonyOS",
         "material": {
-          "certpath": "C:\\Users\\24790\\.ohos\\config\\default_harmony-QQSpeed__3Hsr8QOeo2GHaRbdmT9P5nP5RzBjIN549MUlS9BVx8=.cer",
+          "certpath": "C:\\Users\\vyron\\.ohos\\config\\default_harmony_qq-speed_1utE4UI_PNdJy84zrCsqAk6O__8_CnHCFPSJtP9WR8Y=.cer",
           "keyAlias": "debugKey",
-          "keyPassword": "0000001B9FCB74DAF06871ADAF43A02AE7C401204EBEBC19860643FFC6A0CB536A6400D92068E75AB6D8B8",
-          "profile": "C:\\Users\\24790\\.ohos\\config\\default_harmony-QQSpeed__3Hsr8QOeo2GHaRbdmT9P5nP5RzBjIN549MUlS9BVx8=.p7b",
+          "keyPassword": "0000001AB1CD7E00C52441B09C8B4ED8097365704A3C10253B3B011A61F3EBB3A6BBCCB64EAE67C565A9",
+          "profile": "C:\\Users\\vyron\\.ohos\\config\\default_harmony_qq-speed_1utE4UI_PNdJy84zrCsqAk6O__8_CnHCFPSJtP9WR8Y=.p7b",
           "signAlg": "SHA256withECDSA",
-          "storeFile": "C:\\Users\\24790\\.ohos\\config\\default_harmony-QQSpeed__3Hsr8QOeo2GHaRbdmT9P5nP5RzBjIN549MUlS9BVx8=.p12",
-          "storePassword": "0000001B2FEF2EB5105A175D1295DB02D4419A6FF8DAFB087C5B90C698A4293E4529EB15DFDEF4C4F5E30F"
+          "storeFile": "C:\\Users\\vyron\\.ohos\\config\\default_harmony_qq-speed_1utE4UI_PNdJy84zrCsqAk6O__8_CnHCFPSJtP9WR8Y=.p12",
+          "storePassword": "0000001A76F616EED65671ACEF2EED4A2D6F7E1D053CB4EB6F5A021D3C366E1445CD8A0409925FBB5993"
         }
       }
     ],
@@ -26,7 +26,8 @@
             "caseSensitiveCheck": true,
             "useNormalizedOHMUrl": true
           }
-        }
+        },
+        "targetSdkVersion": "6.1.1(24)"
       }
     ],
     "buildModeSet": [

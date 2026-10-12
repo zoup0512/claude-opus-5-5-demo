@@ -1,5 +1,5 @@
 {
-  "name": "libgameRenderer",
+  "name": "libgameRenderer.so",
   "version": "1.0.0",
   "description": "运输船 3D 渲染原生模块类型声明",
   "main": "index.d.ts",

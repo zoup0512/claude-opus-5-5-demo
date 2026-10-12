@@ -1,11 +1,25 @@
 {
   "app": {
-    "signingConfigs": [],
+    "signingConfigs": [
+      {
+        "name": "default",
+        "type": "HarmonyOS",
+        "material": {
+          "certpath": "C:\\Users\\vyron\\.ohos\\config\\default_harmony_cf-transport-ship_pyNrvMcCMp0xxnwHNyd_wvgGizvVp2fEIMxxU12O6WE=.cer",
+          "keyAlias": "debugKey",
+          "keyPassword": "0000001A67CF17BD6937C28A45B0A77DC8AA79EA14A84DE21F0384AB5151F5452C34A072937CAA0552A6",
+          "profile": "C:\\Users\\vyron\\.ohos\\config\\default_harmony_cf-transport-ship_pyNrvMcCMp0xxnwHNyd_wvgGizvVp2fEIMxxU12O6WE=.p7b",
+          "signAlg": "SHA256withECDSA",
+          "storeFile": "C:\\Users\\vyron\\.ohos\\config\\default_harmony_cf-transport-ship_pyNrvMcCMp0xxnwHNyd_wvgGizvVp2fEIMxxU12O6WE=.p12",
+          "storePassword": "0000001AEE9C2BADA0858985E1FA70E83E5A01D36F31A538FA9666F5FC24050B591A4B1BA28A2EA5B527"
+        }
+      }
+    ],
     "products": [
       {
         "name": "default",
         "signingConfig": "default",
-        "compatibleSdkVersion": "5.0.0(12)",
+        "compatibleSdkVersion": "6.1.1(24)",
         "runtimeOS": "HarmonyOS",
         "buildOption": {
           "strictMode": {
@@ -13,14 +27,15 @@
             "useNormalizedOHMUrl": true
           },
           "externalNativeOptions": {
-            "path": "./entry/src/main/cpp/CMakeLists.txt",
+            "path": "./src/main/cpp/CMakeLists.txt",
             "arguments": "",
             "cppFlags": "",
             "abiFilters": [
               "arm64-v8a"
             ]
           }
-        }
+        },
+        "targetSdkVersion": "6.1.1(24)"
       }
     ],
     "buildModeSet": [
