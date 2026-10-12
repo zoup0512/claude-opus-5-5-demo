@@ -52,7 +52,7 @@ export class Vec3 {
     return this;
   }
 
-  addScaled(v: Vec3, s: number): Vec3 {
+  addScaledVector(v: Vec3, s: number): Vec3 {
     this.x += v.x * s;
     this.y += v.y * s;
     this.z += v.z * s;

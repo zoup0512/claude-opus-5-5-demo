@@ -264,7 +264,7 @@ export class Game implements GameHooks {
       }
       await sleep(60);
     }
-    const vs = nrender.viewSize();
+    const vs: number = nrender.viewSize();
     this.viewW = (vs >> 16) & 0xffff;
     this.viewH = vs & 0xffff;
     if (this.viewH > 0) {
@@ -368,7 +368,6 @@ export class Game implements GameHooks {
       nrender.uploadMesh(gunMeshId(id), TEX_GUNWEAR, 0, matP, gm.vd.vdata, gm.vd.idata);
     }
     // 手雷单独一份（带放大）——直接复用枪械 he 网格
-    void MESH_GRENADE;
   }
 
   private buildRadar(): void {
@@ -911,7 +910,10 @@ export class Game implements GameHooks {
             this.rayScratch);
           if (w !== null) {
             const pt = new Vec3().copy(eyeC).addScaledVector(baseC, w.t);
-            this.fx.impact(pt, w.nx, w.ny, w.nz, w.collider.mat, baseC.x, baseC.y, baseC.z);
+            const hitC = w.collider;
+            if (hitC !== null) {
+              this.fx.impact(pt, w.nx, w.ny, w.nz, hitC.mat, baseC.x, baseC.y, baseC.z);
+            }
             audioSys.playKnife(heavy ? 'heavy' : 'light', 'wall', a.isPlayer ? null : eyeC);
           } else {
             audioSys.playKnife(heavy ? 'heavy' : 'light', 'miss', a.isPlayer ? null : eyeC);
@@ -1217,7 +1219,7 @@ export class Game implements GameHooks {
       // 暂停时保持相机
     }
     this.updateCamera(active ? dt : 0);
-    this.fx.update(dt, this.realTime, this.shipSpeed);
+    this.fx.update(dt, this.shipSpeed);
     this.updateHudTimers(dt);
     if (this.player !== null && this.player.consumeLoadout()) {
       this.toggleLoadout();

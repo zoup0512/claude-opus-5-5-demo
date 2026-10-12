@@ -8,9 +8,10 @@
 #include <cmath>
 #include <cstring>
 
+#undef LOG_TAG
 #define LOG_TAG "CfShip"
-#define LOG_I(...) hilog_info(LOG_APP, LOG_TAG, __VA_ARGS__)
-#define LOG_W(...) hilog_warn(LOG_APP, LOG_TAG, __VA_ARGS__)
+#define LOG_I(...) OH_LOG_INFO(LOG_APP, __VA_ARGS__)
+#define LOG_W(...) OH_LOG_WARN(LOG_APP, __VA_ARGS__)
 
 // 与 ArkTS FrameBuf 一致的帧布局常量
 static const int OFF_FLAGS = 0;
@@ -46,13 +47,13 @@ static const int MAX_BONES = 24;
 static const float IDENT_MAT[16] = {1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1};
 
 // ---------------- 着色器 ----------------
-static const char *COMMON_NOISE = R"(
+#define COMMON_NOISE R"(
 float hash12(vec2 p){ vec3 p3 = fract(vec3(p.xyx) * 0.1031); p3 += dot(p3, p3.yzx + 33.33); return fract((p3.x + p3.y) * p3.z); }
 float vnoise(vec2 p){ vec2 i = floor(p); vec2 f = fract(p); vec2 u = f*f*(3.0-2.0*f);
   return mix(mix(hash12(i), hash12(i+vec2(1,0)), u.x), mix(hash12(i+vec2(0,1)), hash12(i+vec2(1,1)), u.x), u.y); }
 float fbm4(vec2 p){ float s=0.0; float a=0.5; for(int i=0;i<4;i++){ s+=a*vnoise(p); p=p*2.03+vec2(17.1,9.2); a*=0.5;} return s; }
 float fbm6(vec2 p){ float s=0.0; float a=0.5; for(int i=0;i<6;i++){ s+=a*vnoise(p); p=p*2.03+vec2(17.1,9.2); a*=0.5;} return s; }
-)";
+)"
 
 static const char *VS_STATIC = R"(#version 300 es
 layout(location=0) in vec3 aPos;
@@ -178,7 +179,7 @@ uniform vec3 uFogColor;
 uniform float uFogDensity;
 uniform float uTime;
 out vec4 fragColor;
-)"+ COMMON_NOISE + R"(
+)" COMMON_NOISE R"(
 void main(){
   vec3 V = normalize(uCamPos - vW);
   float dist = length(uCamPos - vW);
@@ -246,7 +247,7 @@ uniform vec3 uHor;
 uniform vec3 uFogColor;
 uniform float uTime;
 out vec4 fragColor;
-)"+ COMMON_NOISE + R"(
+)" COMMON_NOISE R"(
 void main(){
   vec4 far = uInvVP * vec4(vNdc, 1.0, 1.0);
   vec3 dir = normalize(far.xyz / far.w - uCamPos);

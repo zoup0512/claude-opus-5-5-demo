@@ -3,13 +3,23 @@
  * 所有音效在加载期合成为单声道采样，运行时按距离衰减/声像混合输出。
  */
 import audio from '@ohos.multimedia.audio';
+import hilog from '@ohos.hilog';
 import { Vec3 } from './math3d';
 
 const SR = 44100;
+const LOG_DOMAIN = 0x0000;
+const LOG_TAG = 'CfShip';
+const AUDIO_INIT_TIMEOUT_MS = 1500;
+
+function sleep(ms: number): Promise<void> {
+  return new Promise<void>((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
 
 function mulberry32(a: number): () => number {
   let s = a | 0;
-  return function (): number {
+  return (): number => {
     s |= 0;
     s = (s + 0x6D2B79F5) | 0;
     let t = Math.imul(s ^ (s >>> 15), 1 | s);
@@ -151,26 +161,53 @@ export class AudioSys {
       return;
     }
     this.buildSounds();
-    try {
-      const streamInfo: audio.StreamInfo = {
-        samplingRate: audio.AudioSamplingRate.SAMPLE_RATE_44100,
-        channels: audio.AudioChannel.CHANNEL_2,
-        sampleFormat: audio.AudioSampleFormat.SAMPLE_FORMAT_S16LE,
-        encodingType: audio.AudioEncodingType.ENCODING_TYPE_RAW
-      };
-      const rendererInfo: audio.RendererInfo = {
-        usage: audio.StreamUsage.STREAM_USAGE_GAME,
-        rendererFlags: 0
-      };
-      this.renderer = await audio.createAudioRenderer({ streamInfo: streamInfo, rendererInfo: rendererInfo });
-      await this.renderer.start();
-      this.ready = true;
-      this.timer = setInterval(() => {
-        this.mixTick();
-      }, 20);
-    } catch (e) {
+    const streamInfo: audio.AudioStreamInfo = {
+      samplingRate: audio.AudioSamplingRate.SAMPLE_RATE_44100,
+      channels: audio.AudioChannel.CHANNEL_2,
+      sampleFormat: audio.AudioSampleFormat.SAMPLE_FORMAT_S16LE,
+      encodingType: audio.AudioEncodingType.ENCODING_TYPE_RAW
+    };
+    const rendererInfo: audio.AudioRendererInfo = {
+      usage: audio.StreamUsage.STREAM_USAGE_GAME,
+      rendererFlags: 0
+    };
+    const opened: Promise<void> = this.openRenderer(streamInfo, rendererInfo);
+    if (!await this.waitLimited(opened, AUDIO_INIT_TIMEOUT_MS)) {
       this.ready = false;
+      this.renderer = null;
+      hilog.error(LOG_DOMAIN, LOG_TAG, '音频初始化失败或超时，本次运行静音（不影响游玩）');
     }
+  }
+
+  /** 创建渲染器并启动混音定时器。抛错或永不 settle 都由 waitLimited 兜底。 */
+  private async openRenderer(streamInfo: audio.AudioStreamInfo,
+    rendererInfo: audio.AudioRendererInfo): Promise<void> {
+    const r = await audio.createAudioRenderer({ streamInfo: streamInfo, rendererInfo: rendererInfo });
+    await r.start();
+    this.renderer = r;
+    this.ready = true;
+    this.timer = setInterval(() => {
+      this.mixTick();
+    }, 20);
+  }
+
+  /**
+   * 带上限地等待一个 promise。某些设备/模拟器上音频服务的状态回调不会回来，
+   * createAudioRenderer/start 的 promise 永不 settle —— 直接 await 会把整个加载流程一起卡死。
+   * 到点就走：游戏照常进菜单，只是没有声音。
+   */
+  private async waitLimited(p: Promise<void>, ms: number): Promise<boolean> {
+    let state = 0; // 0 等待 / 1 完成 / 2 失败
+    p.then((): void => {
+      state = 1;
+    }).catch((): void => {
+      state = 2;
+    });
+    const t0 = Date.now();
+    while (state === 0 && Date.now() - t0 < ms) {
+      await sleep(25);
+    }
+    return state === 1;
   }
 
   setVolume(v: number): void {

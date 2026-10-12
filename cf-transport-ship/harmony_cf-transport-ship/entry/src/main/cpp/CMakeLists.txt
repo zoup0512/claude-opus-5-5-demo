@@ -15,7 +15,8 @@ add_library(gameRenderer SHARED
 
 target_link_libraries(gameRenderer PUBLIC
     libace_napi.z.so
+    libace_ndk.z.so
     libEGL.so
     libGLESv3.so
-    libnativewindow.so
+    libnative_window.so
     libhilog_ndk.z.so)

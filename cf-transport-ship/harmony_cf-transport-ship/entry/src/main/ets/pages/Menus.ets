@@ -59,7 +59,7 @@ export struct SliderRow {
 
   build() {
     Column() {
-      Row {
+      Row() {
         Text(this.label)
           .fontSize(12)
           .fontColor('#9aa7b4')

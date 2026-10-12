@@ -5,7 +5,7 @@
 
 export function mulberry32(a: number): () => number {
   let s = a | 0;
-  return function (): number {
+  return (): number => {
     s |= 0;
     s = (s + 0x6D2B79F5) | 0;
     let t = Math.imul(s ^ (s >>> 15), 1 | s);

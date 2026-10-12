@@ -3,17 +3,20 @@
  */
 import window from '@ohos.window';
 import display from '@ohos.display';
+import hilog from '@ohos.hilog';
 import { common } from '@kit.AbilityKit';
 import { Game, BoardRow } from '../game/game';
 import { MenuPanel, PausePanel, EndPanel, LoadoutPanel } from './Menus';
 import { weaponDef } from '../game/weapons';
 
 const TOUCH_LOOK_K = 1.7;
+const LOG_DOMAIN = 0x0000;
+const LOG_TAG = 'CfShip';
 
 @Component
 struct TouchBtn {
   label: string = '';
-  size: number = 56;
+  btnSize: number = 56;
   right: number = 40;
   bottom: number = 60;
   onDown: () => void = () => {
@@ -24,14 +27,14 @@ struct TouchBtn {
 
   build() {
     Text(this.label)
-      .width(this.size)
-      .height(this.size)
-      .fontSize(this.size > 60 ? 15 : 13)
+      .width(this.btnSize)
+      .height(this.btnSize)
+      .fontSize(this.btnSize > 60 ? 15 : 13)
       .fontWeight(FontWeight.Bold)
       .textAlign(TextAlign.Center)
       .fontColor(this.pressed ? '#1c2530' : '#e8eef4')
       .backgroundColor(this.pressed ? '#f5b321' : 'rgba(26,38,54,0.72)')
-      .borderRadius(this.size / 2)
+      .borderRadius(this.btnSize / 2)
       .border({ width: 1, color: 'rgba(255,255,255,0.25)' })
       .position({ right: this.right, bottom: this.bottom })
       .onTouch((e: TouchEvent) => {
@@ -128,8 +131,13 @@ struct Index {
     this.game.init((p: number, t: string) => {
       this.loadP = p;
       this.loadText = t;
+      hilog.info(LOG_DOMAIN, LOG_TAG, 'init step: %{public}s', t);
     }).then(() => {
       this.screen = 'menu';
+      hilog.info(LOG_DOMAIN, LOG_TAG, 'init done, entering menu');
+    }).catch((err: Error) => {
+      // 没有这个 catch 的话，init 抛错只会让加载页静默停住，日志里什么也看不到
+      hilog.error(LOG_DOMAIN, LOG_TAG, 'init failed: %{public}s', err.message);
     });
     // 主循环（游戏 tick + 渲染，loading 阶段也渲染菜单环绕镜头）
     this.tickTimer = setInterval(() => {
@@ -709,7 +717,7 @@ struct Index {
 
         // 按钮
         TouchBtn({
-          label: '开火', size: 92, right: 34, bottom: 130,
+          label: '开火', btnSize: 92, right: 34, bottom: 130,
           onDown: () => {
             const p = this.game.player;
             if (p !== null) {
@@ -725,7 +733,7 @@ struct Index {
           }
         })
         TouchBtn({
-          label: '跳', size: 60, right: 140, bottom: 60,
+          label: '跳', btnSize: 60, right: 140, bottom: 60,
           onDown: () => {
             const p = this.game.player;
             if (p !== null) {
@@ -735,7 +743,7 @@ struct Index {
           }
         })
         TouchBtn({
-          label: '蹲', size: 54, right: 215, bottom: 42,
+          label: '蹲', btnSize: 54, right: 215, bottom: 42,
           onDown: () => {
             const p = this.game.player;
             if (p !== null) {
@@ -745,7 +753,7 @@ struct Index {
           }
         })
         TouchBtn({
-          label: '换弹', size: 54, right: 36, bottom: 240,
+          label: '换弹', btnSize: 54, right: 36, bottom: 240,
           onDown: () => {
             const p = this.game.player;
             if (p !== null) {
@@ -755,7 +763,7 @@ struct Index {
           }
         })
         TouchBtn({
-          label: '切枪', size: 54, right: 100, bottom: 306,
+          label: '切枪', btnSize: 54, right: 100, bottom: 306,
           onDown: () => {
             const p = this.game.player;
             if (p !== null) {
@@ -765,7 +773,7 @@ struct Index {
           }
         })
         TouchBtn({
-          label: '镜', size: 60, right: 36, bottom: 56,
+          label: '镜', btnSize: 60, right: 36, bottom: 56,
           onDown: () => {
             const p = this.game.player;
             if (p !== null) {

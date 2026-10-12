@@ -10,6 +10,7 @@
 #include <napi/native_api.h>
 #include "renderer.h"
 
+#undef LOG_TAG
 #define LOG_TAG "CfShip"
 
 static void OnSurfaceCreatedCB(OH_NativeXComponent *component, void *window)
@@ -18,7 +19,7 @@ static void OnSurfaceCreatedCB(OH_NativeXComponent *component, void *window)
     uint64_t h = 0;
     OH_NativeXComponent_GetXComponentSize(component, window, &w, &h);
     Renderer::Instance().OnSurfaceCreated(window, (int)w, (int)h);
-    hilog_info(LOG_APP, LOG_TAG, "surface created %{public}dx%{public}d", (int)w, (int)h);
+    OH_LOG_INFO(LOG_APP, "surface created %{public}dx%{public}d", (int)w, (int)h);
 }
 
 static void OnSurfaceChangedCB(OH_NativeXComponent *component, void *window)
@@ -142,25 +143,6 @@ static napi_value ViewSize(napi_env env, napi_callback_info info)
 EXTERN_C_START
 static napi_value Init(napi_env env, napi_value exports)
 {
-    napi_value exportInstance = nullptr;
-    if (napi_get_named_property(env, exports, OH_NATIVE_XCOMPONENT_OBJ, &exportInstance) != napi_ok) {
-        return exports;
-    }
-    OH_NativeXComponent *nativeXComponent = nullptr;
-    if (napi_unwrap(env, exportInstance, reinterpret_cast<void **>(&nativeXComponent)) != napi_ok) {
-        return exports;
-    }
-    char idBuf[OH_XCOMPONENT_ID_LEN + 1] = {};
-    uint64_t idLen = OH_XCOMPONENT_ID_LEN + 1;
-    OH_NativeXComponent_GetXComponentId(nativeXComponent, idBuf, &idLen);
-
-    static OH_NativeXComponent_Callback callback;
-    callback.OnSurfaceCreated = OnSurfaceCreatedCB;
-    callback.OnSurfaceChanged = OnSurfaceChangedCB;
-    callback.OnSurfaceDestroyed = OnSurfaceDestroyedCB;
-    callback.DispatchTouchEvent = DispatchTouchEventCB;
-    OH_NativeXComponent_RegisterCallback(nativeXComponent, &callback);
-
     napi_property_descriptor desc[] = {
         {"createTexture", nullptr, CreateTexture, nullptr, nullptr, nullptr, napi_default, nullptr},
         {"uploadMesh", nullptr, UploadMesh, nullptr, nullptr, nullptr, napi_default, nullptr},
@@ -169,6 +151,36 @@ static napi_value Init(napi_env env, napi_value exports)
         {"viewSize", nullptr, ViewSize, nullptr, nullptr, nullptr, napi_default, nullptr},
     };
     napi_define_properties(env, exports, sizeof(desc) / sizeof(desc[0]), desc);
+
+    // ArkTS 直接 import 本模块时 exports 上没有 XComponent 对象；XComponent({ libraryname: 'gameRenderer' })
+    // 会让本库再初始化一次，那次才带该属性并注册 surface 回调。所以下面只能在属性存在时接管生命周期，
+    // 不能提前 return，否则 ArkTS 侧拿到的模块会缺少上面导出的函数。
+    bool hasXComponentObj = false;
+    if (napi_has_named_property(env, exports, OH_NATIVE_XCOMPONENT_OBJ, &hasXComponentObj) != napi_ok
+        || !hasXComponentObj) {
+        return exports;
+    }
+    napi_value exportInstance = nullptr;
+    if (napi_get_named_property(env, exports, OH_NATIVE_XCOMPONENT_OBJ, &exportInstance) != napi_ok
+        || exportInstance == nullptr) {
+        return exports;
+    }
+    OH_NativeXComponent *nativeXComponent = nullptr;
+    if (napi_unwrap(env, exportInstance, reinterpret_cast<void **>(&nativeXComponent)) != napi_ok
+        || nativeXComponent == nullptr) {
+        OH_LOG_ERROR(LOG_APP, "Failed to unwrap the XComponent object");
+        return exports;
+    }
+    char idBuf[OH_XCOMPONENT_ID_LEN_MAX + 1] = {};
+    uint64_t idLen = OH_XCOMPONENT_ID_LEN_MAX + 1;
+    OH_NativeXComponent_GetXComponentId(nativeXComponent, idBuf, &idLen);
+
+    static OH_NativeXComponent_Callback callback;
+    callback.OnSurfaceCreated = OnSurfaceCreatedCB;
+    callback.OnSurfaceChanged = OnSurfaceChangedCB;
+    callback.OnSurfaceDestroyed = OnSurfaceDestroyedCB;
+    callback.DispatchTouchEvent = DispatchTouchEventCB;
+    OH_NativeXComponent_RegisterCallback(nativeXComponent, &callback);
     return exports;
 }
 EXTERN_C_END

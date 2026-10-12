@@ -137,8 +137,8 @@ export function buildMap(world: World): MapBuild {
   };
 
   // ---------- 几何工具 ----------
-  function box(cx: number, cy: number, cz: number, sx: number, sy: number, sz: number, yaw: number,
-    faces: Map<string, string> | string, uvOff?: number[]): void {
+  const box = (cx: number, cy: number, cz: number, sx: number, sy: number, sz: number, yaw: number,
+    faces: Map<string, string> | string, uvOff?: number[]): void => {
     const c = Math.cos(yaw), s = Math.sin(yaw);
     const half = [sx / 2, sy / 2, sz / 2];
     const size = [sx, sy, sz];
@@ -173,8 +173,8 @@ export function buildMap(world: World): MapBuild {
     }
   }
 
-  function faceMap(px: string | null, nx: string | null, py: string | null, ny: string | null,
-    pz: string | null, nz: string | null): Map<string, string> {
+  const faceMap = (px: string | null, nx: string | null, py: string | null, ny: string | null,
+    pz: string | null, nz: string | null): Map<string, string> => {
     const m = new Map<string, string>();
     if (px !== null) {
       m.set('px', px);
@@ -195,7 +195,7 @@ export function buildMap(world: World): MapBuild {
       m.set('nz', nz);
     }
     return m;
-  }
+  };
 
   const solid = (cx: number, cy: number, cz: number, sx: number, sy: number, sz: number, yaw: number,
     collide: boolean, pen: string, sight: boolean, surface: string): void => {
@@ -208,11 +208,11 @@ export function buildMap(world: World): MapBuild {
 
   const m4 = new Mat4();
   const tv = new Vec3();
-  function geom(key: string, g: Geom, x: number, y: number, z: number, rx: number = 0, ry: number = 0,
-    rz: number = 0, sx: number = 1, sy: number = 1, sz: number = 1): void {
+  const geom = (key: string, g: Geom, x: number, y: number, z: number, rx: number = 0, ry: number = 0,
+    rz: number = 0, sx: number = 1, sy: number = 1, sz: number = 1): void => {
     m4.composeScale(tv.set(x, y, z), rx, ry, rz, sx, sy, sz);
     batch(key).addGeom(g, m4);
-  }
+  };
 
   // 两点之间的圆柱（栏杆横杆等）
   const up = new Vec3(0, 1, 0);
@@ -220,8 +220,8 @@ export function buildMap(world: World): MapBuild {
   const rightV = new Vec3(1, 0, 0);
   const fwdV = new Vec3();
   const midV = new Vec3();
-  function rod(key: string, x0: number, y0: number, z0: number, x1: number, y1: number, z1: number,
-    r: number): void {
+  const rod = (key: string, x0: number, y0: number, z0: number, x1: number, y1: number, z1: number,
+    r: number): void => {
     dirV.set(x1 - x0, y1 - y0, z1 - z0);
     const L = dirV.length();
     dirV.normalize();
@@ -237,41 +237,41 @@ export function buildMap(world: World): MapBuild {
     const g = cylinderGeom(r, r, L, 8, false);
     batch(key).addGeom(g, m4);
     void up;
-  }
+  };
 
   const cylG = (): Geom => cylinderGeom(1, 1, 1, 12, true);
   const cylG8 = (): Geom => cylinderGeom(1, 1, 1, 8, true);
   const sphG = (): Geom => sphereGeom(1, 8, 6);
 
-  function container(x: number, z: number, yawDeg: number, len: number, colorIdx: number, level: number = 0,
-    collide: boolean = true): void {
+  const container = (x: number, z: number, yawDeg: number, len: number, colorIdx: number, level: number = 0,
+    collide: boolean = true): void => {
     const L = len === 40 ? L40 : L20;
     const yaw = yawDeg * Math.PI / 180;
     const cy = level * CH + CH / 2;
     const ci = colorIdx % 8;
     box(x, cy, z, L, CH, CW, yaw, faceMap(`c${ci}`, `c${ci}`, `c${ci}`, level > 0 ? null : null, `c${ci}`, `c${ci}`));
     solid(x, cy, z, L, CH, CW, yaw, collide, 'block', true, 'container');
-  }
+  };
 
-  function crate(x: number, z: number, sx: number, sy: number, sz: number, idx: number, y: number = 0,
-    yawDeg: number = 0): void {
+  const crate = (x: number, z: number, sx: number, sy: number, sz: number, idx: number, y: number = 0,
+    yawDeg: number = 0): void => {
     const yaw = yawDeg * Math.PI / 180;
     box(x, y + sy / 2, z, sx, sy, sz, yaw, `crate${idx}`);
     const wood = idx < 3;
     solid(x, y + sy / 2, z, sx, sy, sz, yaw, true, wood ? 'pen' : 'block', true, wood ? 'wood' : 'metal');
-  }
+  };
 
-  function barrel(x: number, z: number, colorKey: string, y: number = 0): void {
+  const barrel = (x: number, z: number, colorKey: string, y: number = 0): void => {
     geom(colorKey, cylG(), x, y + 0.45, z, 0, rnd() * 6, 0, 0.3, 0.9, 0.3);
     geom('black', cylG(), x, y + 0.9, z, 0, 0, 0, 0.29, 0.02, 0.29);
     for (const hy of [0.25, 0.65]) {
       geom('darkSteel', cylG(), x, y + hy, z, 0, 0, 0, 0.305, 0.03, 0.305);
     }
     solid(x, y + 0.45, z, 0.56, 0.9, 0.56, 0, true, 'pen', true, 'metal');
-  }
+  };
 
-  function railing(x0: number, z0: number, x1: number, z1: number, y: number, key: string, h: number,
-    collide: boolean): void {
+  const railing = (x0: number, z0: number, x1: number, z1: number, y: number, key: string, h: number,
+    collide: boolean): void => {
     const dx = x1 - x0, dz = z1 - z0;
     const L = Math.hypot(dx, dz);
     const yaw = Math.atan2(-dz, dx);
@@ -287,10 +287,10 @@ export function buildMap(world: World): MapBuild {
     if (collide) {
       solid(mx, y + 0.8, mz, L, 1.6, 0.1, yaw, true, 'pass', false, 'metal');
     }
-  }
+  };
 
-  function fence(x0: number, z0: number, x1: number, z1: number, y0: number, y1: number,
-    frameKey: string): void {
+  const fence = (x0: number, z0: number, x1: number, z1: number, y0: number, y1: number,
+    frameKey: string): void => {
     const dx = x1 - x0, dz = z1 - z0;
     const L = Math.hypot(dx, dz);
     const yaw = Math.atan2(-dz, dx);
@@ -305,15 +305,15 @@ export function buildMap(world: World): MapBuild {
     rod(frameKey, x0, y1, z0, x1, y1, z1, 0.035);
     rod(frameKey, x0, y0 + 0.02, z0, x1, y0 + 0.02, z1, 0.035);
     solid(mx, (y0 + y1) / 2, mz, L, h, 0.08, yaw, true, 'pass', false, 'mesh');
-  }
+  };
 
-  function lamp(x: number, y: number, z: number): void {
+  const lamp = (x: number, y: number, z: number): void => {
     geom('lamp', sphG(), x, y, z, 0, 0, 0, 0.09, 0.09, 0.09);
     geom('darkSteel', cylG8(), x, y + 0.1, z, 0, 0, 0, 0.12, 0.05, 0.12);
     lampSpots.push(new Vec3(x, y - 0.15, z));
-  }
+  };
 
-  function lifeRing(x: number, y: number, z: number, yaw: number): void {
+  const lifeRing = (x: number, y: number, z: number, yaw: number): void => {
     for (let i = 0; i < 10; i++) {
       const a0 = (i / 10) * Math.PI * 2;
       const a1 = ((i + 1) / 10) * Math.PI * 2;
@@ -340,8 +340,9 @@ export function buildMap(world: World): MapBuild {
       deckBatch.nrm.push(0, 1, 0);
       deckBatch.uv.push(p[0] / 4, -p[1] / 4);
     }
-    for (const t of tris) {
-      deckBatch.idx.push(b + t, b + t + 1, b + t + 2);
+    // tris 是顶点索引的三元组，必须按下标取值；按位置枚举会把每个索引当成三角形起点
+    for (let k = 0; k + 2 < tris.length; k += 3) {
+      deckBatch.idx.push(b + tris[k], b + tris[k + 1], b + tris[k + 2]);
     }
   }
   solid(0, -0.5, 0, 90, 1, 30, 0, true, 'block', true, 'metal');
@@ -429,7 +430,7 @@ export function buildMap(world: World): MapBuild {
 
     // 出生点杂物
     crate(X(-29.6), Z(-6.6), 1.3, 1.3, 1.3, 4, 0, 10);
-    crate(X(-29.5), Z(-5.3), 1.0, 0.9, 1.0, 5, 0, -5);
+    crate(X(-29.5), Z(-5.3), 1.0, 0.9, 1.0, 4, 0, -5);
     crate(X(-35.6), Z(4.2), 1.4, 1.4, 1.4, 4, 0, 0);
     for (const bz of [-11.3, 11.3]) {
       const bx = X(-35.3), bzz = Z(bz);
@@ -496,7 +497,7 @@ export function buildMap(world: World): MapBuild {
       // 外侧管线
       geom('darkSteel', cylG(), X(xc), 0.35, Z(tz1 - 0.3), 0, 0, Math.PI / 2, 0.16, L40, 0.16);
       geom('red', cylG(), X(xc), 0.75, Z(tz1 - 0.28), 0, 0, Math.PI / 2, 0.08, L40, 0.08);
-    }
+    };
     solid(X(tx0 + 1.5 * L40), 0.4, Z(tz1 - 0.3), 3 * L40, 0.8, 0.36, 0, true, 'pass', true, 'metal');
     const tEnd = tx0 + 3 * L40;
     // 管道尽头：20尺集装箱 + 40尺双层
@@ -522,7 +523,7 @@ export function buildMap(world: World): MapBuild {
     crate(X(-14.65), Z(2.3), 1.2, 1.8, 1.2, 4, 0, 0);
     crate(X(-15.8), Z(2.3), 1.0, 0.9, 1.0, 1, 0, 8);
     crate(X(-26.9), Z(0.4), 1.6, 1.6, 1.6, 4, 0, 0);
-    crate(X(-26.6), Z(2.1), 1.2, 1.2, 1.2, 5, 0, 15);
+    crate(X(-26.6), Z(2.1), 1.2, 1.2, 1.2, 4, 0, 15);
     crate(X(-6.4), Z(8.3), 1.4, 1.4, 1.4, s > 0 ? 0 : 2, 0, 4);
     barrel(X(-19.2), Z(-8.3), 'red');
     barrel(X(-18.5), Z(-8.7), 'red');
@@ -606,7 +607,7 @@ export function buildMap(world: World): MapBuild {
   }
 
   // ================== 吊机 ==================
-  function crane(px: number, pz: number, yawDeg: number, luff: number, jibLen: number): Vec3 {
+  const crane = (px: number, pz: number, yawDeg: number, luff: number, jibLen: number): Vec3 => {
     const yaw = yawDeg * Math.PI / 180;
     const local = (x: number, y: number): number[] => {
       return [px + Math.cos(yaw) * x + Math.sin(yaw) * y, pz - Math.sin(yaw) * x + Math.cos(yaw) * y];
@@ -654,7 +655,7 @@ export function buildMap(world: World): MapBuild {
     const xx = -34.0 + Math.floor(i / 5) * 2.8;
     bl.push({ x: xx, z: zz, yaw: -Math.PI / 2 });
     gr.push({ x: -xx, z: -zz, yaw: Math.PI / 2 });
-  }
+  };
   spawns.set('BL', bl);
   spawns.set('GR', gr);
 
