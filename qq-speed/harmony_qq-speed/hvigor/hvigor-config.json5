@@ -1,5 +1,5 @@
 {
-  "modelVersion": "5.0.0",
+  "modelVersion": "6.1.1",
   "dependencies": {},
   "execution": {
     // "analyze": "normal",              /* 定义服务级任务的分析类型 */
