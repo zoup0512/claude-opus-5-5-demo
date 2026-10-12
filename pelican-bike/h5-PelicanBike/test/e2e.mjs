@@ -21,12 +21,12 @@ const URL_ = LIVE
   : `http://127.0.0.1:${WEB}/?autostart=1&ws=ws://127.0.0.1:${GAME}&q=low&fast=1`;
 if (!LIVE) {
   // 游戏服务器
-  game = spawn(process.execPath, ['server/index.mjs'], { env: { ...process.env, PORT: String(GAME), HOST: '127.0.0.1' }, stdio: 'pipe' });
+  game = spawn(process.execPath, ['../../server-PelicanBike/index.mjs'], { env: { ...process.env, PORT: String(GAME), HOST: '127.0.0.1' }, stdio: 'pipe' });
   game.stdout.on('data', (d) => process.env.VERBOSE && console.log('[game]', String(d).trim()));
   game.stderr.on('data', (d) => console.log('[game-err]', String(d).trim()));
 
   // 静态服务
-  const html = await readFile('dist/index.html', 'utf8');
+  const html = await readFile('../dist/index.html', 'utf8');
   web = createServer(async (req, res) => {
     res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
     res.end(html);

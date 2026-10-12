@@ -13,25 +13,26 @@
 ## 目录结构
 
 ```
-├── src/          客户端（Three.js，esbuild 打包为单文件）
-│   ├── net/      WebSocket 网络层、对战逻辑（client.js / pk.js）
-│   └── ...       鹈鹕/单车/海浪/天空/音效等（原单机模块）
-├── server/       Node.js 对战服务器（ws，房间/波次/计分/技能权威）
-├── shared/       双端共享协议定义（protocol.mjs）
-├── test/         服务器逻辑测试 + playwright 双开 E2E
-├── deploy/       nginx 配置（/ws 反代）
-├── build.mjs     构建脚本 → dist/index.html
-└── deploy.py     一键部署到内网 NAS（SSH+SFTP）
+├── h5-PelicanBike/      客户端 H5（Three.js，esbuild 打包为单文件）
+│   ├── src/net/         WebSocket 网络层、对战逻辑（client.js / pk.js）
+│   ├── src/…            鹈鹕/单车/海浪/天空/音效等（原单机模块）
+│   ├── build.mjs        构建脚本 → dist/index.html
+│   └── test/e2e.mjs     playwright 双开 E2E
+├── server-PelicanBike/  Node.js 对战服务器（ws，房间/波次/计分/技能权威）
+│   ├── shared/          双端共享协议定义（protocol.mjs）
+│   └── test/            服务器逻辑测试
+├── deploy/              nginx 配置（/ws 反代）
+└── deploy.py            一键部署到内网 NAS（SSH+SFTP）
 ```
 
 ## 本地开发
 
 ```bash
 npm install          # 国内网络可用 --registry=https://registry.npmmirror.com
-node build.mjs       # 产出 dist/index.html（单文件，含全部依赖）
-node server/index.mjs # 对战服务器，默认 127.0.0.1:8092
-node test/server.test.mjs  # 服务器逻辑测试
-node test/e2e.mjs           # 双开浏览器 E2E（需 Edge）
+cd h5-PelicanBike && node build.mjs   # 产出 dist/index.html（单文件，含全部依赖）
+node server-PelicanBike/index.mjs     # 对战服务器，默认 127.0.0.1:8092
+node server-PelicanBike/test/server.test.mjs  # 服务器逻辑测试
+node h5-PelicanBike/test/e2e.mjs              # 双开浏览器 E2E（需 Edge）
 ```
 
 本地联调：静态页带 `?ws=ws://127.0.0.1:8092` 直连本地服务器；线上走同源 `/ws` 反代。

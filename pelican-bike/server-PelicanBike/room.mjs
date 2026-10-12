@@ -1,6 +1,6 @@
 // 房间：成员 / 生命周期 / 消息校验与转发
 import { Match } from './match.mjs';
-import { RULES } from '../shared/protocol.mjs';
+import { RULES } from './shared/protocol.mjs';
 
 const CODE_AB = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 const newCode = () => Array.from({ length: 4 }, () => CODE_AB[Math.floor(Math.random() * CODE_AB.length)]).join('');

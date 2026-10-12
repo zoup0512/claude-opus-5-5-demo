@@ -9,7 +9,7 @@ const { C2S, S2C } = await import('../shared/protocol.mjs');
 // 缩短规则便于测试：直接 patch 模块常量不可行（const），改用环境控制：时长走 create 参数
 process.env.PORT = String(PORT);
 process.env.HOST = '127.0.0.1';
-await import('../server/index.mjs');
+await import('../index.mjs');
 await new Promise((r) => setTimeout(r, 300));
 
 let failures = 0;

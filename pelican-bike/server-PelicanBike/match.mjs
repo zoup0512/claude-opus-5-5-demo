@@ -1,5 +1,5 @@
 // 对局逻辑：波次调度 / 捕鱼核销 / 计分 / 技能 / 终局与加时
-import { RULES, SKILLS } from '../shared/protocol.mjs';
+import { RULES, SKILLS } from './shared/protocol.mjs';
 
 const rnd = Math.random;
 const range = ([a, b]) => a + rnd() * (b - a);

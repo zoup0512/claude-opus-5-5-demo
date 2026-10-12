@@ -4,7 +4,7 @@ import * as THREE from 'three';
 import { createPelican } from '../pelican.js';
 import { createBicycle, BIKE_POINTS, GEARS, WHEEL_R } from '../bicycle.js';
 import { NetClient } from './client.js';
-import { C2S, S2C, SKILL_INFO, FL_AIR, FL_TRICK, FL_COAST } from '../../shared/protocol.mjs';
+import { C2S, S2C, SKILL_INFO, FL_AIR, FL_TRICK, FL_COAST } from '../../../server-PelicanBike/shared/protocol.mjs';
 
 const $ = (s) => document.querySelector(s);
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));

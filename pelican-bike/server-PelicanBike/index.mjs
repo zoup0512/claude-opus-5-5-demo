@@ -1,9 +1,9 @@
 // 鹈鹕骑单车 · 在线 PK 服务器
-// 用法：node server/index.mjs   （默认 127.0.0.1:8092，经 nginx /ws 反代对外）
+// 用法：node index.mjs   （默认 127.0.0.1:8092，经 nginx /ws 反代对外）
 import http from 'node:http';
 import { WebSocketServer } from 'ws';
 import { RoomManager } from './room.mjs';
-import { PROTO } from '../shared/protocol.mjs';
+import { PROTO } from './shared/protocol.mjs';
 
 const PORT = +(process.env.PORT || 8092);
 const HOST = process.env.HOST || '127.0.0.1';
