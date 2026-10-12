@@ -55,7 +55,7 @@ manifest 还保存 `wrapS/wrapT`、过滤方式、`flipY`、repeat、offset、ce
 导出器不要求在目标仓库提交 `node_modules`。优先复用源项目已安装依赖：
 
 ```powershell
-cd D:\workspace\My\harmony\harmony-PelicanBike\tools\asset-exporter
+cd D:\workspace\My\_all\claude-opus-5-5-demo\pelican-bike\harmony_pelican-bike\tools\asset-exporter
 $env:PELICAN_SOURCE = 'D:\workspace\My\h5\claude-opus-5-5-demo\pelican-bike'
 node .\export.mjs
 node .\validate.mjs
@@ -67,8 +67,8 @@ node .\validate.mjs
 $deps = Join-Path $env:TEMP 'pelican-asset-exporter-deps'
 npm install --prefix $deps --no-save esbuild@0.28.2 playwright-core@1.63.0 three@0.186.0 lil-gui@0.21.0
 $env:PELICAN_DEPS = $deps
-node D:\workspace\My\harmony\harmony-PelicanBike\tools\asset-exporter\export.mjs
-node D:\workspace\My\harmony\harmony-PelicanBike\tools\asset-exporter\validate.mjs
+node D:\workspace\My\_all\claude-opus-5-5-demo\pelican-bike\harmony_pelican-bike\tools\asset-exporter\export.mjs
+node D:\workspace\My\_all\claude-opus-5-5-demo\pelican-bike\harmony_pelican-bike\tools\asset-exporter\validate.mjs
 Remove-Item -Recurse -Force $deps
 ```
 
@@ -138,7 +138,7 @@ world = parentWorld * Translate(position) * Mat4(quaternion) * Scale(scale);
 当前 manifest 为每个生成文件记录 SHA256。运行：
 
 ```powershell
-node D:\workspace\My\harmony\harmony-PelicanBike\tools\asset-exporter\validate.mjs
+node D:\workspace\My\_all\claude-opus-5-5-demo\pelican-bike\harmony_pelican-bike\tools\asset-exporter\validate.mjs
 ```
 
 预期摘要：

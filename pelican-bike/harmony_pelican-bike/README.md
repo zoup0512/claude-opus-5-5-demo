@@ -4,7 +4,7 @@
 
 - **不使用 WebView / Web 组件**：3D 画面由 C++ / OpenGL ES 3 / NativeVSync 直接渲染到 XComponent Surface。
 - **架构**：ArkTS/ArkUI（界面/HUD/触控/系统能力）+ Native C++17（EGL/GLES3 渲染、固定步长玩法模拟、OHAudio 实时合成音频）。
-- **工程**：`D:\workspace\My\harmony\harmony-PelicanBike`，HarmonyOS Stage 模型，API 24（6.1.1），bundleName `com.riba2534.pelicanbike`，双 ABI `arm64-v8a` / `x86_64`。
+- **工程**：`D:\workspace\My\_all\claude-opus-5-5-demo\pelican-bike\harmony_pelican-bike`，HarmonyOS Stage 模型，API 24（6.1.1），bundleName `com.riba2534.pelicanbike`，双 ABI `arm64-v8a` / `x86_64`。
 
 ---
 
@@ -18,7 +18,7 @@
 ### 构建
 
 ```bash
-cd D:\workspace\My\harmony\harmony-PelicanBike
+cd D:\workspace\My\_all\claude-opus-5-5-demo\pelican-bike\harmony_pelican-bike
 
 # 一键构建 unsigned HAP（使用 DevEco 自带工具链）
 powershell -File tools\device\device.ps1 build -PackageMode unsigned
@@ -77,7 +77,7 @@ hdc tconn 127.0.0.1:10178   # SDK toolchains 下的 hdc.exe
 ## 工程结构
 
 ```
-harmony-PelicanBike/
+harmony_pelican-bike/
 ├── entry/                          # HarmonyOS entry 模块（最终交付工程）
 │   └── src/main/
 │       ├── cpp/                    # Native C++17（完整引擎）

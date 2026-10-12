@@ -223,7 +223,7 @@ GPU 资源计数必须在所有 RAII `create/destroy` 路径增减，覆盖：Te
 ### 无设备自检
 
 ```powershell
-cd D:\workspace\My\harmony\harmony-PelicanBike\tools\perf
+cd D:\workspace\My\_all\claude-opus-5-5-demo\pelican-bike\harmony_pelican-bike\tools\perf
 pwsh -File .\run_perf.ps1 -Mode self-test
 ```
 

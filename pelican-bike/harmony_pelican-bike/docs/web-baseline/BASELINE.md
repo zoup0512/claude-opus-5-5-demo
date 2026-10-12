@@ -153,7 +153,7 @@
 直接运行脚本即可；它会在需要时以 `npm ci` 安装锁定依赖、执行 `build.mjs`、在随机本地端口启动静态服务器、完成截图后关闭服务器。若源项目原先没有 `node_modules` / `dist`，脚本会在结束时清理这些临时目录，不留下源码仓库构建痕迹。
 
 ```bash
-node D:/workspace/My/harmony/harmony-PelicanBike/tools/web-baseline/capture-baseline.mjs
+node D:/workspace/My/_all/claude-opus-5-5-demo/pelican-bike/harmony_pelican-bike/tools/web-baseline/capture-baseline.mjs
 ```
 
 可选环境变量：

@@ -1,5 +1,5 @@
 // WebSocket 客户端：连接 / 心跳与时钟偏移 / 自动重连 / 消息分发
-import { C2S } from '../../../server-PelicanBike/shared/protocol.mjs';
+import { C2S } from '../../../server_pelican-bike/shared/protocol.mjs';
 
 export class NetClient {
   constructor() {

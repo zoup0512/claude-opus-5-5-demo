@@ -34,15 +34,15 @@ b9a8423a3d0d11211d93209004e2f86206c41b5e3fd6b19ae24abf8960adbf83
 无需 npm 依赖：
 
 ```powershell
-node D:\workspace\My\harmony\harmony-PelicanBike\tools\asset-packer\pack.mjs
+node D:\workspace\My\_all\claude-opus-5-5-demo\pelican-bike\harmony_pelican-bike\tools\asset-packer\pack.mjs
 ```
 
 也可显式指定路径：
 
 ```powershell
-node D:\workspace\My\harmony\harmony-PelicanBike\tools\asset-packer\pack.mjs `
-  --manifest D:\workspace\My\harmony\harmony-PelicanBike\generated-assets\manifest.json `
-  --output D:\workspace\My\harmony\harmony-PelicanBike\packed-assets\pelican_assets.pak
+node D:\workspace\My\_all\claude-opus-5-5-demo\pelican-bike\harmony_pelican-bike\tools\asset-packer\pack.mjs `
+  --manifest D:\workspace\My\_all\claude-opus-5-5-demo\pelican-bike\harmony_pelican-bike\generated-assets\manifest.json `
+  --output D:\workspace\My\_all\claude-opus-5-5-demo\pelican-bike\harmony_pelican-bike\packed-assets\pelican_assets.pak
 ```
 
 打包器会：
@@ -158,10 +158,10 @@ if (!pelican::assets::LoadPelicanAssetsFromRawFile(nativeResourceManager, assets
 集成时由应用构建系统把 **唯一文件** `packed-assets/pelican_assets.pak` 放进模块 rawfile，运行时名字保持 `pelican_assets.pak`。本任务按约束没有复制到 `entry`。集成侧可执行：
 
 ```powershell
-New-Item -ItemType Directory -Force D:\workspace\My\harmony\harmony-PelicanBike\entry\src\main\resources\rawfile | Out-Null
+New-Item -ItemType Directory -Force D:\workspace\My\_all\claude-opus-5-5-demo\pelican-bike\harmony_pelican-bike\entry\src\main\resources\rawfile | Out-Null
 Copy-Item -Force `
-  D:\workspace\My\harmony\harmony-PelicanBike\packed-assets\pelican_assets.pak `
-  D:\workspace\My\harmony\harmony-PelicanBike\entry\src\main\resources\rawfile\pelican_assets.pak
+  D:\workspace\My\_all\claude-opus-5-5-demo\pelican-bike\harmony_pelican-bike\packed-assets\pelican_assets.pak `
+  D:\workspace\My\_all\claude-opus-5-5-demo\pelican-bike\harmony_pelican-bike\entry\src\main\resources\rawfile\pelican_assets.pak
 ```
 
 ## SceneAssetGpu 集成

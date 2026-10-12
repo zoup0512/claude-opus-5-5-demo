@@ -45,7 +45,7 @@ DevEco 随 SDK 提供的 `hap-sign-tool.jar` 确实支持完整、非交互的 O
 1. 使用 DevEco Studio 打开：
 
    ```text
-   D:\workspace\My\harmony\harmony-PelicanBike
+   D:\workspace\My\_all\claude-opus-5-5-demo\pelican-bike\harmony_pelican-bike
    ```
 
 2. 确认工程 `AppScope/app.json5` 中：
@@ -410,13 +410,13 @@ hdc shell bm get --udid
 先用设备脚本构建 unsigned HAP：
 
 ```powershell
-& "D:\workspace\My\harmony\harmony-PelicanBike\tools\device\device.ps1" build -PackageMode unsigned
+& "D:\workspace\My\_all\claude-opus-5-5-demo\pelican-bike\harmony_pelican-bike\tools\device\device.ps1" build -PackageMode unsigned
 ```
 
 然后：
 
 ```powershell
-$UnsignedHap = "D:\workspace\My\harmony\harmony-PelicanBike\entry\build\default\outputs\default\entry-default-unsigned.hap"
+$UnsignedHap = "D:\workspace\My\_all\claude-opus-5-5-demo\pelican-bike\harmony_pelican-bike\entry\build\default\outputs\default\entry-default-unsigned.hap"
 $SignedHap = Join-Path $Work "entry-default-local-openharmony-signed.hap"
 
 & $Java -jar $Tool sign-app `

@@ -2,7 +2,7 @@
 
 本目录说明 `tools/device` 下的本机开发脚本。脚本面向当前工程：
 
-- 工程根：`D:\workspace\My\harmony\harmony-PelicanBike`
+- 工程根：`D:\workspace\My\_all\claude-opus-5-5-demo\pelican-bike\harmony_pelican-bike`
 - bundleName：`com.riba2534.pelicanbike`
 - Ability：`EntryAbility`
 - 默认模块/产品/目标：`entry` / `default` / `default`
@@ -45,7 +45,7 @@
 从任意目录均可调用：
 
 ```powershell
-& "D:\workspace\My\harmony\harmony-PelicanBike\tools\device\device.ps1" doctor
+& "D:\workspace\My\_all\claude-opus-5-5-demo\pelican-bike\harmony_pelican-bike\tools\device\device.ps1" doctor
 ```
 
 在工程根内可简写：

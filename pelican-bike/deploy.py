@@ -64,8 +64,8 @@ def main():
         sys.exit("需要 NAS SSH 密码：--pass 或环境变量 PELICAN_NAS_PASS")
 
     os.chdir(HERE)
-    if not os.path.isfile("h5-PelicanBike/dist/index.html"):
-        sys.exit("先在 h5-PelicanBike 下运行 node build.mjs")
+    if not os.path.isfile("pelican-bike/dist/index.html"):
+        sys.exit("先在 pelican-bike 下运行 node build.mjs")
 
     c = paramiko.SSHClient()
     c.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -73,12 +73,12 @@ def main():
     sftp = c.open_sftp()
 
     print("[1/5] 上传静态页与服务器代码…")
-    put(sftp, "h5-PelicanBike/dist/index.html", f"{STATIC_DIR}/index.html")
+    put(sftp, "pelican-bike/dist/index.html", f"{STATIC_DIR}/index.html")
     put(sftp, "deploy/nginx.conf", f"{STATIC_DIR}/nginx.conf")
-    put(sftp, "server-PelicanBike/index.mjs", f"{SERVER_DIR}/server/index.mjs")
-    put(sftp, "server-PelicanBike/room.mjs", f"{SERVER_DIR}/server/room.mjs")
-    put(sftp, "server-PelicanBike/match.mjs", f"{SERVER_DIR}/server/match.mjs")
-    put(sftp, "server-PelicanBike/shared/protocol.mjs", f"{SERVER_DIR}/shared/protocol.mjs")
+    put(sftp, "server_pelican-bike/index.mjs", f"{SERVER_DIR}/server/index.mjs")
+    put(sftp, "server_pelican-bike/room.mjs", f"{SERVER_DIR}/server/room.mjs")
+    put(sftp, "server_pelican-bike/match.mjs", f"{SERVER_DIR}/server/match.mjs")
+    put(sftp, "server_pelican-bike/shared/protocol.mjs", f"{SERVER_DIR}/shared/protocol.mjs")
     n = upload_tree(sftp, WS_LIB, f"{SERVER_DIR}/node_modules/ws")
     print(f"  node_modules/ws/* → {n} 个文件")
     sftp.close()

@@ -79,7 +79,7 @@ JSON 覆盖：
 在工具目录运行：
 
 ```bash
-cd D:/workspace/My/harmony/harmony-PelicanBike/tools/reference-vectors
+cd D:/workspace/My/_all/claude-opus-5-5-demo/pelican-bike/harmony_pelican-bike/tools/reference-vectors
 npm install --ignore-scripts
 npm run generate
 npm run verify
@@ -88,9 +88,9 @@ npm run verify
 或从任意目录运行：
 
 ```bash
-npm install --prefix D:/workspace/My/harmony/harmony-PelicanBike/tools/reference-vectors --ignore-scripts
-npm run generate --prefix D:/workspace/My/harmony/harmony-PelicanBike/tools/reference-vectors
-npm run verify --prefix D:/workspace/My/harmony/harmony-PelicanBike/tools/reference-vectors
+npm install --prefix D:/workspace/My/_all/claude-opus-5-5-demo/pelican-bike/harmony_pelican-bike/tools/reference-vectors --ignore-scripts
+npm run generate --prefix D:/workspace/My/_all/claude-opus-5-5-demo/pelican-bike/harmony_pelican-bike/tools/reference-vectors
+npm run verify --prefix D:/workspace/My/_all/claude-opus-5-5-demo/pelican-bike/harmony_pelican-bike/tools/reference-vectors
 ```
 
 源项目位于其它位置时：

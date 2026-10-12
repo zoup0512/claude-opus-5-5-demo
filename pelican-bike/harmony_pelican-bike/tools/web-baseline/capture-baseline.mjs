@@ -5,8 +5,12 @@ import { mkdir, rm, writeFile } from 'node:fs/promises';
 import http from 'node:http';
 import path from 'node:path';
 
-const SOURCE_DIR = process.env.PELICAN_SOURCE_DIR || 'D:/workspace/My/h5/claude-opus-5-5-demo/pelican-bike';
-const OUTPUT_DIR = process.env.PELICAN_BASELINE_DIR || 'D:/workspace/My/harmony/harmony-PelicanBike/docs/web-baseline';
+import { fileURLToPath } from 'node:url';
+
+const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
+// 默认路径按脚本自身位置解析，工程整体搬迁后仍可用；需要时用环境变量覆盖。
+const SOURCE_DIR = process.env.PELICAN_SOURCE_DIR || path.resolve(SCRIPT_DIR, '../../../pelican-bike');
+const OUTPUT_DIR = process.env.PELICAN_BASELINE_DIR || path.resolve(SCRIPT_DIR, '../../docs/web-baseline');
 const CHROME = process.env.PELICAN_CHROME || 'C:/Program Files/Google/Chrome/Application/chrome.exe';
 const EXTERNAL_BASE_URL = process.env.PELICAN_BASE_URL || '';
 const VIEWPORT = { width: 1440, height: 900 };

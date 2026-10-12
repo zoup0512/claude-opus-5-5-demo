@@ -2,7 +2,7 @@
 
 This directory documents the self-contained C++17/GLES3 scene implementation in:
 
-`D:\workspace\My\harmony\harmony-PelicanBike\native-staging\scene`
+`D:\workspace\My\_all\claude-opus-5-5-demo\pelican-bike\harmony_pelican-bike\native-staging\scene`
 
 The module is an integrable approximation of the source `sky.js`, `ocean.js`, `world.js`, `bicycle.js`, `pelican.js`, `fish.js`, `effects.js`, `textures.js`, and `util.js`. It does not own a native window, `EGLDisplay`, `EGLContext`, `EGLSurface`, buffer swap, VSync callback, or render thread.
 
